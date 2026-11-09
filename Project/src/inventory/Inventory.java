@@ -1,7 +1,8 @@
-package proj;
+package inventory;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import proj.Product;
 
 public class Inventory {
 	private final ObservableList<InventoryItem> items = FXCollections.observableArrayList();
