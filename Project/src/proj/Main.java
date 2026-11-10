@@ -14,6 +14,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import product.Product;
+import product.ProductUI;
 import inventory.InventoryUI;
 import inventory.InventoryItem;
 import inventory.Inventory;
@@ -52,6 +54,16 @@ public class Main extends Application {
 	        
 	        stage.setScene(scene);
 	    });
+	    
+	    clerkBtn.setOnAction(e -> {
+	    	Parent productView = productPane();
+
+	        Scene scene = new Scene(productView, 500, 300);
+	        scene.getStylesheets().add(
+	                getClass().getResource("/styles/inventory.css").toExternalForm());
+
+	        stage.setScene(scene);
+	    });
 		
 		StackPane root = new StackPane();
 		root.getChildren().addAll(content);
@@ -76,6 +88,14 @@ public class Main extends Application {
 		
 		return ui.showInventory();
 		
+	}
+	
+	public static Parent productPane() {
+	    Product piatos = new Product("1", "piatos", "delicious", 20.0);
+
+	    ProductUI ui = new ProductUI(piatos);
+
+	    return ui.showProduct();
 	}
 
 }

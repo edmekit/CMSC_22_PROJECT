@@ -4,7 +4,7 @@
 /**
  * 
  */
-module Project {
+module Project{
 	
 	requires javafx.controls;
     requires javafx.fxml;
@@ -13,6 +13,6 @@ module Project {
     
     
     opens proj to javafx.graphics, javafx.fxml, javafx.base;
-    
+    exports proj;
 
 }

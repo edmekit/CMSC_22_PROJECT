@@ -3,7 +3,7 @@
  * This class is for creating Products that will be used throughout the project.
  * */
 
-package proj;
+package product;
 
 public class Product {
 	private String prodId;

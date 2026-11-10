@@ -1,6 +1,6 @@
 package inventory;
 
-import proj.Product;
+import product.Product;
 
 public class InventoryItem {
 	private final Product product;
