@@ -34,7 +34,7 @@ public class Main extends Application {
 		welcome.setStyle("-fx-font-size: 20px;");
 		welcome.setTextAlignment(TextAlignment.CENTER);	
 		
-		HBox loginBtns = new HBox(5, managerBtn, clerkBtn);
+		HBox loginBtns = new HBox(15, managerBtn, clerkBtn);
 		loginBtns.setAlignment(Pos.CENTER);
 		
 		// combine in a vertical container
@@ -47,7 +47,9 @@ public class Main extends Application {
 	        Parent inventoryView = itemPane();
 
 	        Scene scene = new Scene(inventoryView, 500, 300);
-
+	        scene.getStylesheets().add(
+				    getClass().getResource("/styles/inventory.css").toExternalForm());
+	        
 	        stage.setScene(scene);
 	    });
 		
@@ -55,8 +57,7 @@ public class Main extends Application {
 		root.getChildren().addAll(content);
 		Scene scene = new Scene(root, 500, 300);
 		scene.getStylesheets().add(
-			    getClass().getResource("/styles/app.css").toExternalForm()
-			);
+			    getClass().getResource("/styles/app.css").toExternalForm());
 		stage.setTitle("TBAA Management Systen");
 		stage.setScene(scene);
 		

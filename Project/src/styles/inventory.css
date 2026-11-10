@@ -1,0 +1,62 @@
+.root {
+    -fx-background-color: #202830;
+    -fx-font-family: "Arial";
+}
+
+.title {
+	-fx-text-fill: #00adb5;
+	-fx-font-size: 14px;
+	-fx-font-weight: bold;
+}
+
+.levels {
+    -fx-background-color: #29343e;
+    -fx-padding: 12px;
+    -fx-background-radius: 5px;
+
+}
+
+
+.items-container {
+    -fx-background-color: #29343e;
+    -fx-padding: 15px;
+    -fx-background-radius: 10px;
+}
+
+.item-header {
+    -fx-background-color: #14181c;
+    -fx-padding: 12px;
+    -fx-background-radius: 5px;
+}
+
+.item-header .label {
+    -fx-text-fill: #AD2828;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.item-entry:hover {
+    -fx-background-color: #40515f;
+}
+
+.item-text {
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+}
+
+.label {
+    -fx-text-fill: white;
+}
+
+.button {
+    -fx-background-color: #AD2828;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 25px;
+    -fx-background-radius: 6px;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: #008C93;
+}
