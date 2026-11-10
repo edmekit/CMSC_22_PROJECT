@@ -1,12 +1,22 @@
 package proj;
 
 import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import inventory.InventoryUI;
+import inventory.InventoryItem;
+import inventory.Inventory;
 
 public class Main extends Application {
 	
@@ -17,13 +27,36 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage stage) {
-		Button btn = new Button("Click me!");
+		Button managerBtn = new Button("Login as Manager");
+		Button clerkBtn = new Button("Login as Clerk");
 		
-		btn.setOnAction(e -> welcome());
+		Label welcome = new Label("Welcome !");
+		welcome.setStyle("-fx-font-size: 20px;");
+		welcome.setTextAlignment(TextAlignment.CENTER);	
+		
+		HBox loginBtns = new HBox(5, managerBtn, clerkBtn);
+		loginBtns.setAlignment(Pos.CENTER);
+		
+		// combine in a vertical container
+		VBox content = new VBox(10, welcome, loginBtns);	
+		content.setPadding(new Insets(30,15,30,15));
+		content.setAlignment(Pos.CENTER);
+		
+		// change to dashboard when iz made
+	    managerBtn.setOnAction(e -> {
+	        Parent inventoryView = itemPane();
+
+	        Scene scene = new Scene(inventoryView, 500, 300);
+
+	        stage.setScene(scene);
+	    });
 		
 		StackPane root = new StackPane();
-		root.getChildren().add(btn);
+		root.getChildren().addAll(content);
 		Scene scene = new Scene(root, 500, 300);
+		scene.getStylesheets().add(
+			    getClass().getResource("/styles/app.css").toExternalForm()
+			);
 		stage.setTitle("TBAA Management Systen");
 		stage.setScene(scene);
 		
@@ -32,15 +65,16 @@ public class Main extends Application {
 		
 		}
 	
-	public static void welcome() {
-		Dialog<Void> dialog = new Dialog<>();
-        dialog.setTitle("Welcome");
-        
-        ButtonType loginType = new ButtonType("Login");
-        dialog.getDialogPane().getButtonTypes().addAll(loginType, ButtonType.CANCEL);
-        
-        
-        dialog.showAndWait();
+	public static Parent itemPane() {
+		Inventory inventory = new Inventory();
+		
+		Product piatos = new Product("1", "piatos", "delicious", 20.0);
+		inventory.addProduct(piatos, 5);
+		
+		InventoryUI ui = new InventoryUI(inventory);
+		
+		return ui.showInventory();
+		
 	}
 
 }

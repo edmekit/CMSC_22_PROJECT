@@ -7,6 +7,10 @@ import proj.Product;
 public class Inventory {
 	private final ObservableList<InventoryItem> items = FXCollections.observableArrayList();
 	
+	public Inventory() {
+		
+	}
+	
 	public ObservableList<InventoryItem> getItems() {return items;}
 	
 	public InventoryItem findItem(String prodId) {
