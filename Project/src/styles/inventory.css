@@ -19,14 +19,12 @@
 
 .items-container {
     -fx-background-color: #29343e;
-    -fx-padding: 15px;
+    -fx-padding: 8px;
     -fx-background-radius: 10px;
 }
 
 .item-header {
-    -fx-background-color: #14181c;
     -fx-padding: 12px;
-    -fx-background-radius: 5px;
 }
 
 .item-header .label {
@@ -44,9 +42,6 @@
     -fx-font-size: 13px;
 }
 
-.label {
-    -fx-text-fill: white;
-}
 
 .button {
     -fx-background-color: #AD2828;

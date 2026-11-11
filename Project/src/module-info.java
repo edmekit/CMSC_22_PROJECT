@@ -14,5 +14,6 @@ module Project{
     
     opens proj to javafx.graphics, javafx.fxml, javafx.base;
     exports proj;
-
+    
+    opens inventory to javafx.base;
 }
