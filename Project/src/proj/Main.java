@@ -47,7 +47,8 @@ public class Main extends Application {
 		
 		// change to dashboard when iz made
 	    managerBtn.setOnAction(e -> {
-	        Parent inventoryView = itemPane();
+	    	Dashboard dashboard = new Dashboard();
+	        Parent inventoryView = dashboard.getView();
 
 	        Scene scene = new Scene(inventoryView, 700, 500);
 	        scene.getStylesheets().add(
@@ -57,7 +58,8 @@ public class Main extends Application {
 	    });
 	    
 	    clerkBtn.setOnAction(e -> {
-	    	Parent productView = productPane();
+	    	Dashboard dashboard = new Dashboard();
+	        Parent productView = dashboard.getView();
 
 	        Scene scene = new Scene(productView, 700, 500);
 	        scene.getStylesheets().add(
@@ -78,28 +80,5 @@ public class Main extends Application {
 		
 		
 		}
-	
-	public static Parent itemPane() {
-		Inventory inventory = new Inventory();
-		
-		Product piatos = new Product("1", "piatos", "delicious", 20.0);
-		inventory.addProduct(piatos, 5);
-		
-		InventoryUI ui = new InventoryUI(inventory);
-		
-		return ui.showInventory();
-		
-	}
-	
-	public static Parent productPane() {
-		ProductList products = new ProductList();
-	    Product piatos = new Product("1", "piatos", "delicious", 20.0);
-	    products.addProduct(piatos);
-	    products.addProduct(new Product("11", "nova", "!delicious", 21.0));
-	    
-	    ProductUI ui = new ProductUI(products);
-
-	    return ui.showProduct();
-	}
 
 }

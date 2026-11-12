@@ -42,16 +42,17 @@
     -fx-font-size: 13px;
 }
 
-
 .button {
-    -fx-background-color: #AD2828;
-    -fx-text-fill: white;
-    -fx-font-weight: bold;
-    -fx-padding: 10px 25px;
-    -fx-background-radius: 6px;
+    -fx-background-color: white;
     -fx-cursor: hand;
 }
 
 .button:hover {
     -fx-background-color: #008C93;
+}
+
+.sidebar {
+	-fx-background-color: #F5F5F5;
+	-fx-padding: 8px;
+	-fx-background-radius: 10px;
 }
