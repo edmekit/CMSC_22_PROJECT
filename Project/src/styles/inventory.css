@@ -1,5 +1,5 @@
 .root {
-    -fx-background-color: #202830;
+    -fx-background-color: white;
     -fx-font-family: "Arial";
 }
 
@@ -10,7 +10,7 @@
 }
 
 .levels {
-    -fx-background-color: #29343e;
+    -fx-background-color: 	#F5F5F5;
     -fx-padding: 12px;
     -fx-background-radius: 5px;
 
@@ -18,7 +18,7 @@
 
 
 .items-container {
-    -fx-background-color: #29343e;
+    -fx-background-color: #F5F5F5;
     -fx-padding: 8px;
     -fx-background-radius: 10px;
 }

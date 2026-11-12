@@ -15,6 +15,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import product.Product;
+import product.ProductList;
 import product.ProductUI;
 import inventory.InventoryUI;
 import inventory.InventoryItem;
@@ -48,7 +49,7 @@ public class Main extends Application {
 	    managerBtn.setOnAction(e -> {
 	        Parent inventoryView = itemPane();
 
-	        Scene scene = new Scene(inventoryView, 500, 300);
+	        Scene scene = new Scene(inventoryView, 700, 500);
 	        scene.getStylesheets().add(
 				    getClass().getResource("/styles/inventory.css").toExternalForm());
 	        
@@ -58,7 +59,7 @@ public class Main extends Application {
 	    clerkBtn.setOnAction(e -> {
 	    	Parent productView = productPane();
 
-	        Scene scene = new Scene(productView, 500, 300);
+	        Scene scene = new Scene(productView, 700, 500);
 	        scene.getStylesheets().add(
 	                getClass().getResource("/styles/inventory.css").toExternalForm());
 
@@ -67,7 +68,7 @@ public class Main extends Application {
 		
 		StackPane root = new StackPane();
 		root.getChildren().addAll(content);
-		Scene scene = new Scene(root, 500, 300);
+		Scene scene = new Scene(root, 700, 500);
 		scene.getStylesheets().add(
 			    getClass().getResource("/styles/app.css").toExternalForm());
 		stage.setTitle("TBAA Management Systen");
@@ -91,9 +92,12 @@ public class Main extends Application {
 	}
 	
 	public static Parent productPane() {
+		ProductList products = new ProductList();
 	    Product piatos = new Product("1", "piatos", "delicious", 20.0);
-
-	    ProductUI ui = new ProductUI(piatos);
+	    products.addProduct(piatos);
+	    products.addProduct(new Product("11", "nova", "!delicious", 21.0));
+	    
+	    ProductUI ui = new ProductUI(products);
 
 	    return ui.showProduct();
 	}

@@ -6,9 +6,10 @@ import product.Product;
 
 public class Inventory {
 	private final ObservableList<InventoryItem> items = FXCollections.observableArrayList();
+	private int numProduct;
 	
 	public Inventory() {
-		
+		this.numProduct = 0;
 	}
 	
 	public ObservableList<InventoryItem> getItems() {return items;}
@@ -30,6 +31,7 @@ public class Inventory {
 			return;
 		}
 		items.add(new InventoryItem(product, quanti));
+		numProduct++;
 	}
 	
 	public void restock(String id, int quanti) {
@@ -38,6 +40,10 @@ public class Inventory {
 			return;
 		}
 		
+	}
+	
+	public int getNumProduct() {
+		return this.numProduct;
 	}
 	
 

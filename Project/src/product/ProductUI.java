@@ -1,19 +1,24 @@
 package product;
 
+import inventory.InventoryItem;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class ProductUI {
+	private ProductList products;
 	
-	private Product product;
-	
-	public ProductUI(Product product) {
-		this.product = product;
+	public ProductUI(ProductList prods) {
+		this.products = prods;
 	}
 	
 	public Parent showProduct() {
@@ -27,7 +32,7 @@ public class ProductUI {
 		title.getStyleClass().add("title");
 		
 		HBox levels = getLevels();
-		VBox products = getProds();
+		TableView products = getProds();
 		Button close = new Button("Close");
 		
 		root.getChildren().addAll(title, levels, products, close);
@@ -37,50 +42,41 @@ public class ProductUI {
 	
 	private HBox getLevels() {
 		HBox display = new HBox();
-		display.getChildren().addAll(new Label("Products: 1")); // hardcoded to keep it simple
+		
+		String numProducts = "Products: " + products.getNumProds();
+		display.getChildren().addAll(new Label(numProducts)); 
 		display.getStyleClass().add("levels");
 		
 		return display;
 	}
 	
-	private VBox getProds() {
-		VBox list = new VBox(10);
-		list.getStyleClass().add("items-container");
+	private TableView getProds() {
+		TableView<Product> table = new TableView<>();
+        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        
+        // cols
+        TableColumn<Product, String> colId   		= new TableColumn<>("ID");
+        TableColumn<Product, String> colName      = new TableColumn<>("Name");
+        TableColumn<Product, String> colDescrip  = new TableColumn<>("Description");
+        TableColumn<Product, Double> colPrice    = new TableColumn<>("Price");
 		
-		HBox header = new HBox();
-		header.getStyleClass().add("item-header");
+        colId.getStyleClass().add("item-header");
+        colName.getStyleClass().add("item-header");
+        colDescrip.getStyleClass().add("item-header");
+        colPrice.getStyleClass().add("item-header");
 		
-		Label idHeader = new Label("ID");
-		Label nameHeader = new Label("Name");
-		Label descHeader = new Label("Description");
-		Label priceHeader = new Label("Price");
-		
-		idHeader.setPrefWidth(100);
-		nameHeader.setPrefWidth(150);
-		descHeader.setPrefWidth(150);
-		priceHeader.setPrefWidth(100);
-		
-		header.getChildren().addAll(idHeader, nameHeader, descHeader, priceHeader);
-		
-		list.getChildren().add(header);
-		
-		HBox productEntry = new HBox();
-		
-		Label id = new Label(product.getId());
-		Label name = new Label(product.getProdName());
-		Label description = new Label(product.getDescription());
-		Label price = new Label(String.format("%.2f", product.getPrice()));
-		
-		id.setPrefWidth(100);
-		name.setPrefWidth(150);
-		description.setPrefWidth(150);
-		price.setPrefWidth(100);
-		
-		productEntry.getChildren().addAll(id, name, description, price);
-		
-		list.getChildren().add(productEntry);
-		
-		return list;
+        
+        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colName.setCellValueFactory(new PropertyValueFactory<>("prodName"));
+        colDescrip.setCellValueFactory(new PropertyValueFactory<>("description"));
+        colPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+        
+        table.getColumns().addAll(colId, colName, colDescrip, colPrice);
+        table.getStyleClass().add("items-container");
+        
+        table.setItems(products.getProducts());
+        
+        return table;
 	}
 	
 	

@@ -16,4 +16,5 @@ module Project{
     exports proj;
     
     opens inventory to javafx.base;
+    opens product to javafx.base;
 }
