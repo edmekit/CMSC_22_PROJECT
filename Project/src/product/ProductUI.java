@@ -7,9 +7,13 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -33,9 +37,15 @@ public class ProductUI {
 		
 		HBox levels = getLevels();
 		TableView products = getProds();
-		Button close = new Button("Close");
 		
-		root.getChildren().addAll(title, levels, products, close);
+		Button addItem = new Button("Add a product");
+    	Button editItem = new Button("Edit selected");
+    	
+    	HBox btns = new HBox(5, addItem, editItem);
+		
+		root.getChildren().addAll(title, levels, products, btns);
+		
+		addItem.setOnAction(e -> addProduct());
 		
 		return root;
 	}
@@ -79,6 +89,57 @@ public class ProductUI {
         return table;
 	}
 	
-	
+	private void addProduct() {
+	    Dialog<Void> dialog = new Dialog<>();	// make dialog window
+	    dialog.setTitle("Add a product");
+	    
+	    ButtonType createType = new ButtonType("Add");   // make button
+		dialog.getDialogPane().getButtonTypes().addAll(		// add buttons to the window
+		    createType,
+		    ButtonType.CANCEL
+		);
+	   
+	    TextField id = new TextField();	
+	    id.setPromptText("ID");
+	    TextField name = new TextField();	
+	    name.setPromptText("Quantity");
+	    TextField description = new TextField();	
+	    description.setPromptText("Quantity");
+	    TextField price = new TextField();	
+	    price.setPromptText("Price");
+	    
+		// left side
+	    VBox labels = new VBox(15, 
+	    		new Label("ID:"),
+	    		new Label("Name:"),
+	    		new Label("Description:"),
+	    		new Label("Price:")
+	    );
+	    
+	    // right side
+	    VBox fields = new VBox(6,
+	     		id, name, description, price);
+	    
+	    // combine in a horizontal container
+	    HBox content = new HBox(3, labels, fields);
+	    
+	    dialog.getDialogPane().setContent(content);
+	        
+	    Button createBtn = (Button) dialog.getDialogPane().lookupButton(createType); // get create button to apply functions
+	    
+	    createBtn.setOnAction(e -> {
+	        
+	        String prodId = id.getText();
+	        String prodName = name.getText();
+	        String prodDescrip = description.getText();
+	        Double prodPrice = Double.valueOf(price.getText());
+	        
+	        Product newProd = new Product(prodId, prodName, prodDescrip, prodPrice);
+	        
+	        products.addProduct(newProd);
+	    });
 
+	    dialog.showAndWait();
+	}
+	
 }

@@ -22,4 +22,13 @@ public class ProductList {
 	public int getNumProds() {
 		return this.numProduct;
 	}
+	
+	public Product findProd(String prodName) {
+		for (Product prod : products) {
+			if (prod.getProdName().equals(prodName)) {
+				return prod;
+			}
+		}
+		return null;
+	}
 }

@@ -16,8 +16,12 @@ public class Dashboard {
 	
 	private BorderPane root;
 	private StackPane panel;
-
-    public Dashboard() {
+	private Inventory inventory;
+	private ProductList products;
+	
+    public Dashboard(Inventory inventory, ProductList products) {
+    	this.inventory = inventory;
+    	this.products = products;
         root = new BorderPane();
 
         panel = new StackPane();
@@ -66,21 +70,14 @@ public class Dashboard {
     
     private void showInventory() {
     	
-		Inventory inventory = new Inventory();
 		
-		Product piatos = new Product("1", "piatos", "delicious", 20.0);
-		inventory.addProduct(piatos, 5);
-		
-		InventoryUI ui = new InventoryUI(inventory);
+		InventoryUI ui = new InventoryUI(inventory, products);
 
         panel.getChildren().setAll(ui.showInventory());
     }
     
     private void showProducts() {
-		ProductList products = new ProductList();
-	    Product piatos = new Product("1", "piatos", "delicious", 20.0);
-	    products.addProduct(piatos);
-	    products.addProduct(new Product("11", "nova", "!delicious", 21.0));
+
 	    
 	    ProductUI ui = new ProductUI(products);
 

@@ -23,6 +23,7 @@ import inventory.Inventory;
 
 public class Main extends Application {
 	
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		launch(args);
@@ -30,6 +31,13 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage stage) {
+    	Inventory inventory = new Inventory();
+    	Product piatos = new Product("1", "piatos", "delicious", 20.0);
+		inventory.addProduct(piatos, 5);
+		
+		ProductList products = new ProductList();
+	    products.addProduct(new Product("11", "nova", "!delicious", 21.0));
+		
 		Button managerBtn = new Button("Login as Manager");
 		Button clerkBtn = new Button("Login as Clerk");
 		
@@ -47,7 +55,8 @@ public class Main extends Application {
 		
 		// change to dashboard when iz made
 	    managerBtn.setOnAction(e -> {
-	    	Dashboard dashboard = new Dashboard();
+
+	    	Dashboard dashboard = new Dashboard(inventory, products);
 	        Parent inventoryView = dashboard.getView();
 
 	        Scene scene = new Scene(inventoryView, 700, 500);
@@ -58,7 +67,7 @@ public class Main extends Application {
 	    });
 	    
 	    clerkBtn.setOnAction(e -> {
-	    	Dashboard dashboard = new Dashboard();
+	    	Dashboard dashboard = new Dashboard(inventory, products);
 	        Parent productView = dashboard.getView();
 
 	        Scene scene = new Scene(productView, 700, 500);

@@ -4,20 +4,28 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.util.StringConverter;
+import product.Product;
+import product.ProductList;
 
 public class InventoryUI {
 	
 	private Inventory inventory;
+	private ProductList list;
 
-    public InventoryUI(Inventory inventory) {
+    public InventoryUI(Inventory inventory, ProductList list) {
         this.inventory = inventory;
+        this.list = list;
     }
 	
     public Parent showInventory() {
@@ -32,9 +40,16 @@ public class InventoryUI {
     	
     	HBox levels = getLevels(); // or something type shit
     	TableView items = getItems();
-    	Button close = new Button("Close");
     	
-    	root.getChildren().addAll(title, levels, items, close);
+    	Button addItem = new Button("Add an item");
+    	Button editItem = new Button("Edit selected");
+    	
+    	HBox btns = new HBox(5, addItem, editItem);
+    	
+    	
+    	root.getChildren().addAll(title, levels, items, btns);
+    	
+    	addItem.setOnAction(e -> addItem());
     	
     	return root;
     }
@@ -71,6 +86,53 @@ public class InventoryUI {
 
     	
     	return table;
+    }
+    
+    private void addItem() {
+	    Dialog<Void> dialog = new Dialog<>();	// make dialog window
+	    dialog.setTitle("Add item to inventory");
+	    
+	    ButtonType createType = new ButtonType("Add");   // make button
+		dialog.getDialogPane().getButtonTypes().addAll(		// add buttons to the window
+		    createType,
+		    ButtonType.CANCEL
+		);
+		
+	    ComboBox<String> selectedProd = new ComboBox<>();		
+	    selectedProd.setMaxWidth(Double.MAX_VALUE);
+	    for (Product product : list.getProducts()) {
+	    	selectedProd.getItems().add(product.getProdName());
+	    }
+	   
+	    TextField quantity = new TextField();	
+	    quantity.setPromptText("Quantity");
+	        
+		// left side
+	    VBox labels = new VBox(15, 
+	    		new Label("Select a product:"),
+	    		new Label("Quantity:")
+	    );
+	    
+	    // right side
+	    VBox fields = new VBox(6,
+	     		selectedProd,
+	     		quantity);
+	    
+	    // combine in a horizontal container
+	    HBox content = new HBox(3, labels, fields);
+	    
+	    dialog.getDialogPane().setContent(content);
+	        
+	    Button createBtn = (Button) dialog.getDialogPane().lookupButton(createType); // get create button to apply functions
+	    
+	    createBtn.setOnAction(e -> {
+	        Product product = list.findProd(selectedProd.getValue());
+	        int quan = Integer.valueOf(quantity.getText());
+	        
+	        inventory.addProduct(product, quan);
+	    });
+
+	    dialog.showAndWait();
     }
 	
 }
