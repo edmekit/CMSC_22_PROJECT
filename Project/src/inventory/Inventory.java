@@ -5,7 +5,7 @@ import javafx.collections.ObservableList;
 import product.Product;
 
 public class Inventory {
-	private final ObservableList<InventoryItem> items = FXCollections.observableArrayList();
+	private final static ObservableList<InventoryItem> items = FXCollections.observableArrayList();
 	private int numProduct;
 	
 	public Inventory() {
@@ -14,11 +14,19 @@ public class Inventory {
 	
 	public ObservableList<InventoryItem> getItems() {return items;}
 	
-	public InventoryItem findItem(String prodId) {
+	public static InventoryItem findItem(String prodId) {
 		for (InventoryItem item : items) {
 			if (item.getId().equals(prodId)) {return item;}
 		}
 		return null;
+	}
+	
+	public static int checkItemQuantity(Product product) {
+		InventoryItem prodInv = findItem(product.getId());
+		Product foundProduct = prodInv.getProduct();
+		if(foundProduct ==  null) return -1;
+		else if(prodInv.getQuantity() == 0) return 0;
+		else return prodInv.getQuantity();
 	}
 	
 	public void addProduct(Product product, int quanti) {
