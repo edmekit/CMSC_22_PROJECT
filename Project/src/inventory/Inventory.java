@@ -14,19 +14,11 @@ public class Inventory {
 	
 	public ObservableList<InventoryItem> getItems() {return items;}
 	
-	public static InventoryItem findItem(String prodId) {
+	public InventoryItem findItem(String prodName) {
 		for (InventoryItem item : items) {
-			if (item.getId().equals(prodId)) {return item;}
+			if (item.getProdName().equals(prodName)) {return item;}
 		}
 		return null;
-	}
-	
-	public static int checkItemQuantity(Product product) {
-		InventoryItem prodInv = findItem(product.getId());
-		Product foundProduct = prodInv.getProduct();
-		if(foundProduct ==  null) return -1;
-		else if(prodInv.getQuantity() == 0) return 0;
-		else return prodInv.getQuantity();
 	}
 	
 	public void addProduct(Product product, int quanti) {

@@ -56,7 +56,8 @@ public class InventoryUI {
     
     private HBox getLevels() {
     	HBox display = new HBox();
-    	display.getChildren().addAll(new Label("Products: 1"), new Label("\tNeeds restocking: 0")); // hardcoded pa tamad sir
+    	String itemCount = "Products: " + String.valueOf(inventory.getNumProduct());
+    	display.getChildren().addAll(new Label(itemCount), new Label("\tNeeds restocking: 0")); // hardcoded pa tamad sir
     	display.getStyleClass().add("levels");
     	
     	return display;

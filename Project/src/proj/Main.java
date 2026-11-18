@@ -32,11 +32,10 @@ public class Main extends Application {
 	@Override
 	public void start(Stage stage) {
     	Inventory inventory = new Inventory();
-    	Product piatos = new Product("1", "piatos", "delicious", 20.0);
-		inventory.addProduct(piatos, 5);
 		
+    	Product product = new Product("1", "Nova", "HAHe", 12.0);
 		ProductList products = new ProductList();
-	    products.addProduct(new Product("11", "nova", "!delicious", 21.0));
+		products.addProduct(product);
 		
 		Button managerBtn = new Button("Login as Manager");
 		Button clerkBtn = new Button("Login as Clerk");

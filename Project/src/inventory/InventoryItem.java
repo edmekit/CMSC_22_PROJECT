@@ -18,7 +18,7 @@ public class InventoryItem {
 	public String getProdName() {return product.getProdName();}
 	public double getPrice() {return product.getPrice();}
 	
-	private void setQuantity(int quanti) {this.quantity = quanti;}
+	public void setQuantity(int quanti) {this.quantity = quanti;}
 	
 
 }

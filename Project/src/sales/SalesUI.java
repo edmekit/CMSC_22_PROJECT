@@ -16,10 +16,11 @@ import product.Product;
 public class SalesUI {
 	
 	private Inventory items;
-	SaleFunctions saleFunctions = new SaleFunctions();
+	private SaleFunctions saleFunctions;
 	
 	public SalesUI(Inventory items) {
 		this.items = items;
+		this.saleFunctions = new SaleFunctions(items);
 	}
 	
 	public Parent showSales() {
@@ -32,17 +33,22 @@ public class SalesUI {
 		title.setAlignment(Pos.CENTER);
 		title.getStyleClass().add("title");
 		
-		HBox saleEntry = new HBox(10);
+		HBox saleEntry = new HBox(50);
+		HBox selectBox = new HBox(10);
+		
 		Label select = new Label("Select a product: ");
 	    ComboBox<String> selectedProd = new ComboBox<>();		
 	    for (InventoryItem item : items.getItems()) {
 	    	selectedProd.getItems().add(item.getProdName());
 	    }
+	    selectBox.setMaxWidth(Double.MAX_VALUE);
+	    saleEntry.setMaxWidth(Double.MAX_VALUE);
+	    selectBox.getChildren().addAll(select, selectedProd);
 	    
 	    TextField quantity = new TextField();	
 	    quantity.setPromptText("Quantity");
 		
-	    saleEntry.getChildren().addAll(select, selectedProd, quantity);
+	    saleEntry.getChildren().addAll(selectBox, quantity);
 		
 		
 		Button addEntry = new Button("+");
@@ -54,9 +60,12 @@ public class SalesUI {
 		
 		addEntry.setOnAction(e -> {
 			String id = "1";
-			Product product = Inventory.findItem(selectedProd.getValue()).getProduct();
+			InventoryItem product = items.findItem(selectedProd.getValue());
+			System.out.println(product.getQuantity());
 			int quan = Integer.valueOf(quantity.getText());
+			
 			saleFunctions.addSale(product, id, quan);
+			
 			});
 		
 		return root;

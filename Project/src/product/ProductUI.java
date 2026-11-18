@@ -99,8 +99,6 @@ public class ProductUI {
 		    ButtonType.CANCEL
 		);
 	   
-	    TextField id = new TextField();	
-	    id.setPromptText("ID");
 	    TextField name = new TextField();	
 	    name.setPromptText("Product Name");
 	    TextField description = new TextField();	
@@ -110,15 +108,13 @@ public class ProductUI {
 	    
 		// left side
 	    VBox labels = new VBox(15, 
-	    		new Label("ID:"),
 	    		new Label("Name:"),
 	    		new Label("Description:"),
 	    		new Label("Price:")
 	    );
 	    
 	    // right side
-	    VBox fields = new VBox(6,
-	     		id, name, description, price);
+	    VBox fields = new VBox(6,name, description, price);
 	    
 	    // combine in a horizontal container
 	    HBox content = new HBox(3, labels, fields);
@@ -129,7 +125,7 @@ public class ProductUI {
 	    
 	    createBtn.setOnAction(e -> {
 	        
-	        String prodId = id.getText();
+	        String prodId = String.valueOf(products.getNumProds() + 1);
 	        String prodName = name.getText();
 	        String prodDescrip = description.getText();
 	        Double prodPrice = Double.valueOf(price.getText());
