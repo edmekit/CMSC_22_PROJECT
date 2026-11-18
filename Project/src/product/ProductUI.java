@@ -102,9 +102,9 @@ public class ProductUI {
 	    TextField id = new TextField();	
 	    id.setPromptText("ID");
 	    TextField name = new TextField();	
-	    name.setPromptText("Quantity");
+	    name.setPromptText("Product Name");
 	    TextField description = new TextField();	
-	    description.setPromptText("Quantity");
+	    description.setPromptText("Description");
 	    TextField price = new TextField();	
 	    price.setPromptText("Price");
 	    

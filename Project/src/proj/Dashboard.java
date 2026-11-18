@@ -10,7 +10,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import product.Product;
 import product.ProductList;
-import product.ProductUI; 
+import product.ProductUI;
+import sales.SalesUI; 
 
 public class Dashboard {
 	
@@ -60,6 +61,7 @@ public class Dashboard {
     	
     	invenBtn.setOnAction(e -> showInventory());
     	prodBtn.setOnAction(e -> showProducts());
+    	salesBtn.setOnAction(e -> showSales());
     	
     	btns.getChildren().addAll(salesBtn, invenBtn, prodBtn, logBtn);
     	
@@ -82,6 +84,12 @@ public class Dashboard {
 	    ProductUI ui = new ProductUI(products);
 
         panel.getChildren().setAll(ui.showProduct());
+    }
+    
+    private void showSales() {
+    	SalesUI sales = new SalesUI(inventory);
+    	
+    	panel.getChildren().setAll(sales.showSales());
     }
     
     public Parent getView() {
