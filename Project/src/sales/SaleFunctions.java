@@ -30,7 +30,7 @@ public class SaleFunctions {
 			System.out.println("Not enough stock.");
 			return;
 		}
-		transacs.addTransac(id,new SaleItem(id,toSell,quantity));
+		transacs.recordSale(toSell, quantity, id);
 		toSell.setQuantity(toSell.getQuantity() - quantity);
 		earnings += toSell.getPrice() * quantity;
 		System.out.print(earnings);

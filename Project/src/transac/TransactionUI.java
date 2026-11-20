@@ -125,7 +125,26 @@ public class TransactionUI {
 		dialog.setTitle("Record donation");
 		dialog.getDialogPane().setContent(grid);
 		
-		dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+		ButtonType record = new ButtonType("Record");
+		dialog.getDialogPane().getButtonTypes().addAll(record, ButtonType.CANCEL);
+		
+		Button recordBtn = (Button) dialog.getDialogPane().lookupButton(record);
+		recordBtn.setOnAction(e -> {
+			if (type.getValue().equals(DonationTransaction.CASH)) {
+				String goodperson = donor.getText();
+				Double amt = Double.valueOf(amount.getText());
+				transactions.recordCashDonation(goodperson, amt, "dd");
+				transactions.setBalance(transactions.getBalance() + amt);
+			}
+			else {
+				String goodperson = donor.getText();
+				String name = itemName.getText();
+				int qty = Integer.valueOf(itemQty.getText());
+				
+				transactions.recordItemDonation(goodperson, name, qty, "dd");
+			}
+		});
+		
 		
 		dialog.showAndWait();
 		

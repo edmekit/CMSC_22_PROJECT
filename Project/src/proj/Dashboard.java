@@ -11,11 +11,9 @@ import javafx.scene.layout.VBox;
 import product.Product;
 import product.ProductList;
 import product.ProductUI;
+import sales.SaleFunctions;
 import sales.SalesUI;
-<<<<<<< HEAD
-=======
 import transac.TransactionUI;
->>>>>>> effb7e1e242ba99b771c4511fe422f78e87244b2
 import transac.Transactions; 
 
 public class Dashboard {
@@ -24,21 +22,15 @@ public class Dashboard {
 	private StackPane panel;
 	private Inventory inventory;
 	private ProductList products;
-<<<<<<< HEAD
 	private Transactions transacs;
+	private SaleFunctions salesfunc;
 	
-    public Dashboard(Inventory inventory, ProductList products, Transactions transacs) {
+    public Dashboard(Inventory inventory, ProductList products, Transactions transacs, SaleFunctions sales) {
     	this.inventory = inventory;
     	this.products = products;
     	this.transacs = transacs;
-=======
-	private Transactions transactions;
+    	this.salesfunc = sales;
 	
-    public Dashboard(Inventory inventory, ProductList products, Transactions transactions) {
-    	this.inventory = inventory;
-    	this.products = products;
-    	this.transactions = transactions;
->>>>>>> effb7e1e242ba99b771c4511fe422f78e87244b2
         root = new BorderPane();
 
         panel = new StackPane();
@@ -104,13 +96,13 @@ public class Dashboard {
     }
     
     private void showSales() {
-    	SalesUI sales = new SalesUI(inventory);
+    	SalesUI sales = new SalesUI(inventory, transacs, salesfunc);
     	
     	panel.getChildren().setAll(sales.showSales());
     }
     
     private void showTransac() {
-    	TransactionUI transac = new TransactionUI(transactions);
+    	TransactionUI transac = new TransactionUI(transacs);
     	
     	panel.getChildren().setAll(transac.showTransac());
     }

@@ -1,10 +1,8 @@
 package transac;
 
-<<<<<<< HEAD
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 import sales.SaleItem;
-=======
 import inventory.InventoryItem;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,6 +11,7 @@ public class Transactions {
 	private final ObservableList<Transaction> history = FXCollections.observableArrayList();
 	private int saleId = 0;
 	private int donationId = 0;
+	private double balance = 0;
 	
 	public void recordSale(InventoryItem item, int quantity, String recordedBy) {
 		history.add(0, new SaleTransaction(newSaleId(), recordedBy, item, quantity));
@@ -36,20 +35,11 @@ public class Transactions {
 	
 	public ObservableList<Transaction> getHistory() {return history;}
 
-	public Object getBalance() {
-		// TODO Auto-generated method stub
-		return null;
+	public double getBalance() {
+		return this.balance;
 	}
 	
-	
-	
->>>>>>> effb7e1e242ba99b771c4511fe422f78e87244b2
-
-public class Transactions {
-	private final ObservableMap<String, SaleItem> transacs = FXCollections.observableHashMap();
-	
-	
-	public void addTransac(String id, SaleItem item) {
-		transacs.put(id, item);
+	public void setBalance(Double amt) {
+		this.balance = amt;
 	}
 }

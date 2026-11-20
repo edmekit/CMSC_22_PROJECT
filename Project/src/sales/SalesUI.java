@@ -19,9 +19,9 @@ public class SalesUI {
 	private Inventory items;
 	private SaleFunctions saleFunctions;
 	
-	public SalesUI(Inventory items, Transactions transacs) {
+	public SalesUI(Inventory items, Transactions transacs, SaleFunctions sales) {
 		this.items = items;
-		this.saleFunctions = new SaleFunctions(transacs);
+		this.saleFunctions = sales;
 	}
 	
 	public Parent showSales() {

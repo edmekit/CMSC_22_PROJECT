@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import product.Product;
 import product.ProductList;
 import product.ProductUI;
+import sales.SaleFunctions;
 import transac.Transactions;
 import inventory.InventoryUI;
 import inventory.InventoryItem;
@@ -33,14 +34,10 @@ public class Main extends Application {
 	@Override
 	public void start(Stage stage) {
     	Inventory inventory = new Inventory();
-<<<<<<< HEAD
     	ProductList products = new ProductList();
-    	Transactions transacs = new Transactions();
-    	
-=======
     	Transactions transactions = new Transactions();
+    	SaleFunctions sales = new SaleFunctions(transactions);
 		
->>>>>>> effb7e1e242ba99b771c4511fe422f78e87244b2
     	Product product = new Product("1", "Nova", "HAHe", 12.0);
 		
 		products.addProduct(product);
@@ -63,11 +60,7 @@ public class Main extends Application {
 		// change to dashboard when iz made
 	    managerBtn.setOnAction(e -> {
 
-<<<<<<< HEAD
-	    	Dashboard dashboard = new Dashboard(inventory, products, transacs);
-=======
-	    	Dashboard dashboard = new Dashboard(inventory, products, transactions);
->>>>>>> effb7e1e242ba99b771c4511fe422f78e87244b2
+	    	Dashboard dashboard = new Dashboard(inventory, products, transactions, sales);
 	        Parent inventoryView = dashboard.getView();
 
 	        Scene scene = new Scene(inventoryView, 700, 500);
@@ -78,7 +71,7 @@ public class Main extends Application {
 	    });
 	    
 	    clerkBtn.setOnAction(e -> {
-	    	Dashboard dashboard = new Dashboard(inventory, products, transactions);
+	    	Dashboard dashboard = new Dashboard(inventory, products, transactions, sales);
 	        Parent productView = dashboard.getView();
 
 	        Scene scene = new Scene(productView, 700, 500);
