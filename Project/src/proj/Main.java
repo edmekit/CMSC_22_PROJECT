@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import product.Product;
 import product.ProductList;
 import product.ProductUI;
+import transac.Transactions;
 import inventory.InventoryUI;
 import inventory.InventoryItem;
 import inventory.Inventory;
@@ -32,9 +33,11 @@ public class Main extends Application {
 	@Override
 	public void start(Stage stage) {
     	Inventory inventory = new Inventory();
-		
+    	ProductList products = new ProductList();
+    	Transactions transacs = new Transactions();
+    	
     	Product product = new Product("1", "Nova", "HAHe", 12.0);
-		ProductList products = new ProductList();
+		
 		products.addProduct(product);
 		
 		Button managerBtn = new Button("Login as Manager");
@@ -55,7 +58,7 @@ public class Main extends Application {
 		// change to dashboard when iz made
 	    managerBtn.setOnAction(e -> {
 
-	    	Dashboard dashboard = new Dashboard(inventory, products);
+	    	Dashboard dashboard = new Dashboard(inventory, products, transacs);
 	        Parent inventoryView = dashboard.getView();
 
 	        Scene scene = new Scene(inventoryView, 700, 500);

@@ -5,22 +5,19 @@
 
 package sales;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableMap;
 import inventory.*;
-import product.*;
+import transac.Transactions;
 
 public class SaleFunctions {
 	
-	private final ObservableMap<String, SaleItem> saleHistory = FXCollections.observableHashMap();
-	private Inventory inventory;
+	private Transactions transacs;
 	private double earnings;
 	//oo pre kinopya q ng buo yung Inventory class. papatawag uli tau ni sir HAHAHAHA
 	// change return type para may flag sa SalesUI perd tapos madisplay yung error message
 	
-    public SaleFunctions(Inventory inventory) {
-        this.inventory = inventory;
+    public SaleFunctions(Transactions transacs) {
         this.earnings = 0;
+        this.transacs = transacs;
     }
 	
 	public void addSale(InventoryItem toSell, String id, int quantity) {
@@ -33,7 +30,7 @@ public class SaleFunctions {
 			System.out.println("Not enough stock.");
 			return;
 		}
-		saleHistory.put(id,new SaleItem(id,toSell,quantity));
+		transacs.addTransac(id,new SaleItem(id,toSell,quantity));
 		toSell.setQuantity(toSell.getQuantity() - quantity);
 		earnings += toSell.getPrice() * quantity;
 		System.out.print(earnings);

@@ -12,15 +12,16 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import product.Product;
+import transac.Transactions;
 
 public class SalesUI {
 	
 	private Inventory items;
 	private SaleFunctions saleFunctions;
 	
-	public SalesUI(Inventory items) {
+	public SalesUI(Inventory items, Transactions transacs) {
 		this.items = items;
-		this.saleFunctions = new SaleFunctions(items);
+		this.saleFunctions = new SaleFunctions(transacs);
 	}
 	
 	public Parent showSales() {

@@ -11,7 +11,8 @@ import javafx.scene.layout.VBox;
 import product.Product;
 import product.ProductList;
 import product.ProductUI;
-import sales.SalesUI; 
+import sales.SalesUI;
+import transac.Transactions; 
 
 public class Dashboard {
 	
@@ -19,10 +20,12 @@ public class Dashboard {
 	private StackPane panel;
 	private Inventory inventory;
 	private ProductList products;
+	private Transactions transacs;
 	
-    public Dashboard(Inventory inventory, ProductList products) {
+    public Dashboard(Inventory inventory, ProductList products, Transactions transacs) {
     	this.inventory = inventory;
     	this.products = products;
+    	this.transacs = transacs;
         root = new BorderPane();
 
         panel = new StackPane();
