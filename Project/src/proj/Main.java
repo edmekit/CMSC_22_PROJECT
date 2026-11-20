@@ -33,9 +33,14 @@ public class Main extends Application {
 	@Override
 	public void start(Stage stage) {
     	Inventory inventory = new Inventory();
+<<<<<<< HEAD
     	ProductList products = new ProductList();
     	Transactions transacs = new Transactions();
     	
+=======
+    	Transactions transactions = new Transactions();
+		
+>>>>>>> effb7e1e242ba99b771c4511fe422f78e87244b2
     	Product product = new Product("1", "Nova", "HAHe", 12.0);
 		
 		products.addProduct(product);
@@ -58,7 +63,11 @@ public class Main extends Application {
 		// change to dashboard when iz made
 	    managerBtn.setOnAction(e -> {
 
+<<<<<<< HEAD
 	    	Dashboard dashboard = new Dashboard(inventory, products, transacs);
+=======
+	    	Dashboard dashboard = new Dashboard(inventory, products, transactions);
+>>>>>>> effb7e1e242ba99b771c4511fe422f78e87244b2
 	        Parent inventoryView = dashboard.getView();
 
 	        Scene scene = new Scene(inventoryView, 700, 500);
@@ -69,7 +78,7 @@ public class Main extends Application {
 	    });
 	    
 	    clerkBtn.setOnAction(e -> {
-	    	Dashboard dashboard = new Dashboard(inventory, products);
+	    	Dashboard dashboard = new Dashboard(inventory, products, transactions);
 	        Parent productView = dashboard.getView();
 
 	        Scene scene = new Scene(productView, 700, 500);

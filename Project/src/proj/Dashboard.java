@@ -12,6 +12,10 @@ import product.Product;
 import product.ProductList;
 import product.ProductUI;
 import sales.SalesUI;
+<<<<<<< HEAD
+=======
+import transac.TransactionUI;
+>>>>>>> effb7e1e242ba99b771c4511fe422f78e87244b2
 import transac.Transactions; 
 
 public class Dashboard {
@@ -20,12 +24,21 @@ public class Dashboard {
 	private StackPane panel;
 	private Inventory inventory;
 	private ProductList products;
+<<<<<<< HEAD
 	private Transactions transacs;
 	
     public Dashboard(Inventory inventory, ProductList products, Transactions transacs) {
     	this.inventory = inventory;
     	this.products = products;
     	this.transacs = transacs;
+=======
+	private Transactions transactions;
+	
+    public Dashboard(Inventory inventory, ProductList products, Transactions transactions) {
+    	this.inventory = inventory;
+    	this.products = products;
+    	this.transactions = transactions;
+>>>>>>> effb7e1e242ba99b771c4511fe422f78e87244b2
         root = new BorderPane();
 
         panel = new StackPane();
@@ -65,6 +78,7 @@ public class Dashboard {
     	invenBtn.setOnAction(e -> showInventory());
     	prodBtn.setOnAction(e -> showProducts());
     	salesBtn.setOnAction(e -> showSales());
+    	logBtn.setOnAction(e -> showTransac());
     	
     	btns.getChildren().addAll(salesBtn, invenBtn, prodBtn, logBtn);
     	
@@ -93,6 +107,12 @@ public class Dashboard {
     	SalesUI sales = new SalesUI(inventory);
     	
     	panel.getChildren().setAll(sales.showSales());
+    }
+    
+    private void showTransac() {
+    	TransactionUI transac = new TransactionUI(transactions);
+    	
+    	panel.getChildren().setAll(transac.showTransac());
     }
     
     public Parent getView() {
