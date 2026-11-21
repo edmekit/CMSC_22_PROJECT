@@ -3,10 +3,6 @@
     -fx-font-family: "Arial";
 }
 
-.label {
-    -fx-text-fill: white;
-}
-
 .button {
     -fx-background-color: #AD2828;
     -fx-text-fill: white;
@@ -16,4 +12,12 @@
 
 .button:hover {
     -fx-background-color: #008C93;
+}
+
+.left {
+	-fx-background-color: white;
+}
+
+.right {
+	-fx-background-color: #F5F5F5;
 }

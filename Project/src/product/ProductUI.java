@@ -17,12 +17,15 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import proj.User;
 
 public class ProductUI {
 	private ProductList products;
+	private User user;
 	
-	public ProductUI(ProductList prods) {
+	public ProductUI(ProductList prods, User user) {
 		this.products = prods;
+		this.user = user;
 	}
 	
 	public Parent showProduct() {
@@ -40,6 +43,12 @@ public class ProductUI {
 		
 		Button addItem = new Button("Add a product");
     	Button editItem = new Button("Edit selected");
+    	
+    	addItem.setManaged(user.canManageProducts());
+    	addItem.setVisible(user.canManageProducts());
+    	editItem.setManaged(user.canManageProducts());
+    	editItem.setVisible(user.canManageProducts());
+    	
     	
     	HBox btns = new HBox(5, addItem, editItem);
 		

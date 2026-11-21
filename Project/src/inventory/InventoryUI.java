@@ -17,15 +17,18 @@ import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 import product.Product;
 import product.ProductList;
+import proj.User;
 
 public class InventoryUI {
 	
 	private Inventory inventory;
 	private ProductList list;
+	private User user;
 
-    public InventoryUI(Inventory inventory, ProductList list) {
+    public InventoryUI(Inventory inventory, ProductList list, User user) {
         this.inventory = inventory;
         this.list = list;
+        this.user = user;
     }
 	
     public Parent showInventory() {
@@ -42,10 +45,14 @@ public class InventoryUI {
     	TableView items = getItems();
     	
     	Button addItem = new Button("Add an item");
+    	addItem.setManaged(user.canManageInventory());
+    	addItem.setVisible(user.canManageInventory());
+    	
     	Button editItem = new Button("Edit selected");
+    	editItem.setManaged(user.canManageInventory());
+    	editItem.setVisible(user.canManageInventory());
     	
     	HBox btns = new HBox(5, addItem, editItem);
-    	
     	
     	root.getChildren().addAll(title, levels, items, btns);
     	

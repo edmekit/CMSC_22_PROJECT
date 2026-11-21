@@ -24,13 +24,15 @@ public class Dashboard {
 	private ProductList products;
 	private Transactions transacs;
 	private SaleFunctions salesfunc;
+	private User currentUser;
 	
-    public Dashboard(Inventory inventory, ProductList products, Transactions transacs, SaleFunctions sales) {
+    public Dashboard(User user, Inventory inventory, ProductList products, Transactions transacs, SaleFunctions sales) {
     	this.inventory = inventory;
     	this.products = products;
     	this.transacs = transacs;
     	this.salesfunc = sales;
-	
+    	this.currentUser = user;
+    	
         root = new BorderPane();
 
         panel = new StackPane();
@@ -56,6 +58,7 @@ public class Dashboard {
     	Button invenBtn = new Button("Inventory");
     	Button prodBtn = new Button("Products");
     	Button logBtn = new Button("Transaction");
+    	Button logout = new Button("Log out");
     	
     	
     	salesBtn.setMaxWidth(Double.MAX_VALUE);
@@ -71,6 +74,8 @@ public class Dashboard {
     	prodBtn.setOnAction(e -> showProducts());
     	salesBtn.setOnAction(e -> showSales());
     	logBtn.setOnAction(e -> showTransac());
+    	logout.setOnAction(e -> logOut());
+    	showInventory();
     	
     	btns.getChildren().addAll(salesBtn, invenBtn, prodBtn, logBtn);
     	
@@ -81,8 +86,7 @@ public class Dashboard {
     
     private void showInventory() {
     	
-		
-		InventoryUI ui = new InventoryUI(inventory, products);
+		InventoryUI ui = new InventoryUI(inventory, products, currentUser);
 
         panel.getChildren().setAll(ui.showInventory());
     }
@@ -90,7 +94,7 @@ public class Dashboard {
     private void showProducts() {
 
 	    
-	    ProductUI ui = new ProductUI(products);
+	    ProductUI ui = new ProductUI(products, currentUser);
 
         panel.getChildren().setAll(ui.showProduct());
     }
@@ -105,6 +109,10 @@ public class Dashboard {
     	TransactionUI transac = new TransactionUI(transacs);
     	
     	panel.getChildren().setAll(transac.showTransac());
+    }
+    
+    private void logOut() {
+    	
     }
     
     public Parent getView() {
