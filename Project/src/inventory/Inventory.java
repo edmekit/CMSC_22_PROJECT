@@ -73,10 +73,10 @@ public class Inventory implements Serializable {
 				return inv;
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
-				return null;
+				return new Inventory();
 			}	
 		} catch(IOException e) {
-			return null;
+			return new Inventory();
 		}
 	}
 	
