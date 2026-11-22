@@ -1,5 +1,11 @@
 package inventory;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import product.Product;
@@ -46,5 +52,29 @@ public class Inventory {
 		return this.numProduct;
 	}
 	
+	public void saveInventory(Path filepath) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(Files.newOutputStream(filepath))) {
+            oos.writeObject(this);
+            //serialize the database such that it is saved to filepath, retains being an object when loaded
+            System.out.println("Inventory successfully saved to " + filepath);
+        } catch (IOException e) {
+            System.out.println("Error saving inventory: " + e.getMessage());
+            //catch if the filepath is invalid, or an error is caught in the Input/Output of the system
+        }
+    }
+	
+	public static Inventory loadInventory(Path filepath) {
+		try (ObjectInputStream ois = new ObjectInputStream(Files.newInputStream(filepath))){
+			try {
+				Inventory inv = (Inventory) ois.readObject();
+				return inv;
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+				return null;
+			}	
+		} catch(IOException e) {
+			return null;
+		}
+	}
 
 }

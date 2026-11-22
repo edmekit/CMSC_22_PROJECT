@@ -1,5 +1,10 @@
 package product;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -30,5 +35,30 @@ public class ProductList {
 			}
 		}
 		return null;
+	}
+	
+	public void saveProducts(Path filepath) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(Files.newOutputStream(filepath))) {
+            oos.writeObject(this);
+            //serialize the database such that it is saved to filepath, retains being an object when loaded
+            System.out.println("Products successfully saved to " + filepath);
+        } catch (IOException e) {
+            System.out.println("Error saving products: " + e.getMessage());
+            //catch if the filepath is invalid, or an error is caught in the Input/Output of the system
+        }
+    }
+	
+	public static ProductList loadProducts(Path filepath) {
+		try (ObjectInputStream ois = new ObjectInputStream(Files.newInputStream(filepath))){
+			try {
+				ProductList pl = (ProductList) ois.readObject();
+				return pl;
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+				return null;
+			}	
+		} catch(IOException e) {
+			return null;
+		}
 	}
 }
