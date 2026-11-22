@@ -80,10 +80,10 @@ public class Transactions implements Serializable {
 				return transacs;
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
-				return null;
+				return new Transactions();
 			}	
 		} catch(IOException e) {
-			return null;
+			return new Transactions();
 		}
 	}
 }

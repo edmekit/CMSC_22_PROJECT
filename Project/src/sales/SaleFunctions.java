@@ -63,10 +63,10 @@ public class SaleFunctions implements Serializable {
 				return sales;
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
-				return null;
+				return new SaleFunctions(new Transactions());
 			}	
 		} catch(IOException e) {
-			return null;
+			return new SaleFunctions(new Transactions());
 		}
 	}
 }

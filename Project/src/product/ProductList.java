@@ -61,10 +61,10 @@ public class ProductList implements Serializable {
 				return pl;
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
-				return null;
+				return new ProductList();
 			}	
 		} catch(IOException e) {
-			return null;
+			return new ProductList();
 		}
 	}
 	

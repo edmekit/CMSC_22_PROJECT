@@ -1,10 +1,11 @@
 package proj;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
 public class App {   
-    private final List<User> users = new ArrayList<>();
+    private List<User> users = new ArrayList<>();
     private User currentUser;
 
     public App() {
@@ -50,5 +51,16 @@ public class App {
             }
         }
         return false;
+    }
+    
+    public void setUsersList(Path filepath) {
+    	try {
+			this.users = User.loadUsers(filepath);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+    }
+    public void saveUsersList(Path filepath) {
+    	User.saveUsers(filepath, users);
     }
 }

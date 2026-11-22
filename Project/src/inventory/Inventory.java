@@ -5,6 +5,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import java.io.Serializable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,7 +14,7 @@ import product.Product;
 
 public class Inventory implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private final static ObservableList<InventoryItem> items = FXCollections.observableArrayList();
+	private static transient ObservableList<InventoryItem> items = FXCollections.observableArrayList();
 	private int numProduct;
 	
 	public Inventory() {
@@ -77,5 +79,16 @@ public class Inventory implements Serializable {
 			return null;
 		}
 	}
+	
+	private void writeObject(ObjectOutputStream oos) throws IOException {
+        oos.defaultWriteObject();
+        oos.writeObject(new ArrayList<>(items)); 
+    }
+
+    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
+        ois.defaultReadObject();
+        List<InventoryItem> list = (List<InventoryItem>) ois.readObject(); 
+        items = FXCollections.observableArrayList(list); 
+    }
 
 }
