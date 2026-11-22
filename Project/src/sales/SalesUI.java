@@ -12,6 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import product.Product;
+import proj.SceneManager;
 import transac.Transactions;
 
 public class SalesUI {
@@ -19,9 +20,9 @@ public class SalesUI {
 	private Inventory items;
 	private SaleFunctions saleFunctions;
 	
-	public SalesUI(Inventory items, Transactions transacs, SaleFunctions sales) {
-		this.items = items;
-		this.saleFunctions = sales;
+	public SalesUI(SceneManager sm) {
+		this.items = sm.getInventory();
+		this.saleFunctions = sm.getSales();
 	}
 	
 	public Parent showSales() {

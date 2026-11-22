@@ -17,14 +17,15 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import proj.SceneManager;
 
 public class TransactionUI {
 	private Transactions transactions;
 	private TableView<Transaction> table;
 	private Label balanceLabel = new Label();
 	
-	public TransactionUI(Transactions transactions) {
-		this.transactions = transactions;
+	public TransactionUI(SceneManager sm) {
+		this.transactions = sm.getTransactions();
 	}
 	
 	public Parent showTransac() {

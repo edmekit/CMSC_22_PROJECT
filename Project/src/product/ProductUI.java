@@ -17,15 +17,16 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import proj.SceneManager;
 import proj.User;
 
 public class ProductUI {
 	private ProductList products;
 	private User user;
 	
-	public ProductUI(ProductList prods, User user) {
-		this.products = prods;
-		this.user = user;
+	public ProductUI(SceneManager sm) {
+		this.products = sm.getProducts();
+		this.user = sm.getSystem().getCurrentUser();
 	}
 	
 	public Parent showProduct() {

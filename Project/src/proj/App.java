@@ -37,7 +37,7 @@ public class App {
 
     public void logout() { 
     	currentUser = null; 
-    	}
+    }
     
     public User getCurrentUser() {
     	return currentUser; 

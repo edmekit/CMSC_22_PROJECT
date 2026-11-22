@@ -17,6 +17,7 @@ import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 import product.Product;
 import product.ProductList;
+import proj.SceneManager;
 import proj.User;
 
 public class InventoryUI {
@@ -25,10 +26,10 @@ public class InventoryUI {
 	private ProductList list;
 	private User user;
 
-    public InventoryUI(Inventory inventory, ProductList list, User user) {
-        this.inventory = inventory;
-        this.list = list;
-        this.user = user;
+    public InventoryUI(SceneManager sm) {
+        this.inventory = sm.getInventory();
+        this.list = sm.getProducts();
+        this.user = sm.getSystem().getCurrentUser();
     }
 	
     public Parent showInventory() {

@@ -18,20 +18,13 @@ import transac.Transactions;
 
 public class Dashboard {
 	
-	private BorderPane root;
-	private StackPane panel;
-	private Inventory inventory;
-	private ProductList products;
-	private Transactions transacs;
-	private SaleFunctions salesfunc;
+	private SceneManager sm;
 	private User currentUser;
+    private BorderPane root = new BorderPane();
+    private StackPane panel = new StackPane();
 	
-    public Dashboard(User user, Inventory inventory, ProductList products, Transactions transacs, SaleFunctions sales) {
-    	this.inventory = inventory;
-    	this.products = products;
-    	this.transacs = transacs;
-    	this.salesfunc = sales;
-    	this.currentUser = user;
+    public Dashboard(SceneManager sm) {
+    	this.sm = sm;
     	
         root = new BorderPane();
 
@@ -74,10 +67,10 @@ public class Dashboard {
     	prodBtn.setOnAction(e -> showProducts());
     	salesBtn.setOnAction(e -> showSales());
     	logBtn.setOnAction(e -> showTransac());
-    	logout.setOnAction(e -> logOut());
+    	logout.setOnAction(e -> sm.logout());
     	showInventory();
     	
-    	btns.getChildren().addAll(salesBtn, invenBtn, prodBtn, logBtn);
+    	btns.getChildren().addAll(salesBtn, invenBtn, prodBtn, logBtn, logout);
     	
     	sidebar.getChildren().add(btns);
     	
@@ -86,7 +79,7 @@ public class Dashboard {
     
     private void showInventory() {
     	
-		InventoryUI ui = new InventoryUI(inventory, products, currentUser);
+		InventoryUI ui = new InventoryUI(sm);
 
         panel.getChildren().setAll(ui.showInventory());
     }
@@ -94,27 +87,23 @@ public class Dashboard {
     private void showProducts() {
 
 	    
-	    ProductUI ui = new ProductUI(products, currentUser);
+	    ProductUI ui = new ProductUI(sm);
 
         panel.getChildren().setAll(ui.showProduct());
     }
     
     private void showSales() {
-    	SalesUI sales = new SalesUI(inventory, transacs, salesfunc);
+    	SalesUI sales = new SalesUI(sm);
     	
     	panel.getChildren().setAll(sales.showSales());
     }
     
     private void showTransac() {
-    	TransactionUI transac = new TransactionUI(transacs);
+    	TransactionUI transac = new TransactionUI(sm);
     	
     	panel.getChildren().setAll(transac.showTransac());
     }
-    
-    private void logOut() {
-    	
-    }
-    
+
     public Parent getView() {
         return root;
     }
