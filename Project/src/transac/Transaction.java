@@ -1,6 +1,9 @@
 package transac;
 
-public abstract class Transaction {
+import java.io.Serializable;
+
+public abstract class Transaction implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private final String id;
 	private final String recordedBy;
 	

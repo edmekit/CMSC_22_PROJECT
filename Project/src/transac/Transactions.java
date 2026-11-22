@@ -5,13 +5,18 @@ import javafx.collections.FXCollections;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
+
 import inventory.InventoryItem;
 import javafx.collections.ObservableList;
 
-public class Transactions {
-	private final ObservableList<Transaction> history = FXCollections.observableArrayList();
+public class Transactions implements Serializable {
+	private static final long serialVersionUID = 1L;
+	private transient ObservableList<Transaction> history = FXCollections.observableArrayList();
 	private int saleId = 0;
 	private int donationId = 0;
 	private double balance = 0;
@@ -45,6 +50,18 @@ public class Transactions {
 	public void setBalance(Double amt) {
 		this.balance = amt;
 	}
+	
+	private void writeObject(ObjectOutputStream oos) throws IOException {
+        oos.defaultWriteObject();
+        oos.writeObject(new ArrayList<>(history)); 
+    }
+
+    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
+        ois.defaultReadObject();
+        List<Transaction> list = (List<Transaction>) ois.readObject(); 
+        history = FXCollections.observableArrayList(list); 
+    }
+	
 	public void saveTransactions(Path filepath) {
         try (ObjectOutputStream oos = new ObjectOutputStream(Files.newOutputStream(filepath))) {
             oos.writeObject(this);

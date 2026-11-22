@@ -1,8 +1,11 @@
 package inventory;
 
+import java.io.Serializable;
+
 import product.Product;
 
-public class InventoryItem {
+public class InventoryItem implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private final Product product;
 	private int quantity;
 	

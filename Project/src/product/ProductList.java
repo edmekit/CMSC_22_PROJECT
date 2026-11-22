@@ -3,13 +3,19 @@ package product;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class ProductList {
-	private final ObservableList<Product> products = FXCollections.observableArrayList();
+public class ProductList implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
+	private transient ObservableList<Product> products = FXCollections.observableArrayList();
 	private int numProduct;
 	
 	public ProductList() {
@@ -61,4 +67,15 @@ public class ProductList {
 			return null;
 		}
 	}
+	
+	private void writeObject(ObjectOutputStream oos) throws IOException {
+        oos.defaultWriteObject();
+        oos.writeObject(new ArrayList<>(products)); 
+    }
+
+    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
+        ois.defaultReadObject();
+        List<Product> list = (List<Product>) ois.readObject(); 
+        products = FXCollections.observableArrayList(list); 
+    }
 }

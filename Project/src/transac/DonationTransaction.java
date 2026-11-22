@@ -1,6 +1,7 @@
 package transac;
 
 public class DonationTransaction extends Transaction {
+	private static final long serialVersionUID = 1L;
 	public static final String CASH = "Cash";
 	public static final String ITEM = "Item";
 	

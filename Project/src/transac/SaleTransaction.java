@@ -3,6 +3,7 @@ package transac;
 import inventory.InventoryItem;
 
 public class SaleTransaction extends Transaction {
+	private static final long serialVersionUID = 1L;
 	private final InventoryItem item;
 	private final int quantity;
 	private final double total;

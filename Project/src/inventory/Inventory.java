@@ -5,12 +5,13 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-
+import java.io.Serializable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import product.Product;
 
-public class Inventory {
+public class Inventory implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private final static ObservableList<InventoryItem> items = FXCollections.observableArrayList();
 	private int numProduct;
 	

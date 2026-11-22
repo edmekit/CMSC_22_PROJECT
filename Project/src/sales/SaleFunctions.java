@@ -8,14 +8,15 @@ package sales;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
 import inventory.*;
 import transac.Transactions;
 
-public class SaleFunctions {
-	
+public class SaleFunctions implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private Transactions transacs;
 	private double earnings;
 	
