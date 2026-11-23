@@ -22,11 +22,13 @@ import proj.User;
 
 public class InventoryUI {
 	
+	private SceneManager sm;
 	private Inventory inventory;
 	private ProductList list;
 	private User user;
 
     public InventoryUI(SceneManager sm) {
+    	this.sm = sm;
         this.inventory = sm.getInventory();
         this.list = sm.getProducts();
         this.user = sm.getSystem().getCurrentUser();
@@ -64,6 +66,12 @@ public class InventoryUI {
     	addItem.setOnAction(e -> addItem());
         delItem.setOnAction(e -> {
         	InventoryItem selectedItem = items.getSelectionModel().getSelectedItem();
+        	
+        	if (selectedItem == null) {
+        		warn("Select an item to delete first.");
+        		return;
+        	}
+
         	inventory.removeItem(selectedItem);
         });
     	
@@ -143,13 +151,32 @@ public class InventoryUI {
 	    Button createBtn = (Button) dialog.getDialogPane().lookupButton(createType); // get create button to apply functions
 	    
 	    createBtn.setOnAction(e -> {
-	        Product product = list.findProd(selectedProd.getValue());
-	        int quan = Integer.valueOf(quantity.getText());
+	    	if (selectedProd.getValue() == null) {
+	    		warn("Select a product.");
+	    		e.consume();
+	    		return;
+	        }
 	        
+	    	int quan;
+	        try {
+	        	quan = Integer.parseInt(quantity.getText().trim());
+	        } catch (NumberFormatException ex) {
+	        	warn("Quantity must be a whole number.");
+	        	return;
+	        }
+	        if (quan <= 0) {
+	        	warn("Quantity must be greater than 0."); return;
+	        }
+	        
+	        Product product = list.findProd(selectedProd.getValue());
 	        inventory.addProduct(product, quan);
 	    });
 
 	    dialog.showAndWait();
+    }
+    
+    private void warn(String message) {
+        sm.getSystem().warn(message);
     }
 	
 }

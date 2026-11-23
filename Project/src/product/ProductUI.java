@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
@@ -21,10 +22,12 @@ import proj.SceneManager;
 import proj.User;
 
 public class ProductUI {
+	private SceneManager sm;
 	private ProductList productlist;
 	private User user;
 	
 	public ProductUI(SceneManager sm) {
+		this.sm = sm;
 		this.productlist = sm.getProducts();
 		this.user = sm.getSystem().getCurrentUser();
 	}
@@ -61,7 +64,20 @@ public class ProductUI {
 		addItem.setOnAction(e -> addProduct());
 		delItem.setOnAction(e -> {
 			Product product = products.getSelectionModel().getSelectedItem();
-			productlist.removeProd(product);
+			
+			if (product == null) {
+				warn("Select a product to delete first.");
+				return;
+			}
+			
+			Alert confirm = new Alert(Alert.AlertType.CONFIRMATION,
+		            "Delete " + product.getProdName() + "?", ButtonType.YES, ButtonType.NO);
+		    confirm.setHeaderText(null);
+		    confirm.showAndWait().ifPresent(result -> {
+		        if (result == ButtonType.YES) {
+		            productlist.removeProd(product);
+		        }
+		    });
 		});
 		
 		return root;
@@ -141,11 +157,34 @@ public class ProductUI {
 	    Button createBtn = (Button) dialog.getDialogPane().lookupButton(createType); // get create button to apply functions
 	    
 	    createBtn.setOnAction(e -> {
-	        
 	        String prodId = String.valueOf(productlist.getNumProds() + 1);
 	        String prodName = name.getText();
 	        String prodDescrip = description.getText();
-	        Double prodPrice = Double.valueOf(price.getText());
+	        
+	        if (prodName.isEmpty()) {
+	            warn("Product name cannot be empty.");
+	            e.consume();
+	            return;
+	        }
+	        if (productlist.findProd(prodName) != null) {
+	            warn("A product with that name already exists.");
+	            e.consume();
+	            return;
+	        }
+	        
+	        Double prodPrice;
+	        try {
+	            prodPrice = Double.parseDouble(price.getText().trim());
+	        } catch (NumberFormatException ex) {
+	            warn("Price must be a number.");
+	            e.consume();
+	            return;
+	        }
+	        if (prodPrice < 0) {
+	            warn("Price cannot be negative.");
+	            e.consume();
+	            return;
+	        }
 	        
 	        Product newProd = new Product(prodId, prodName, prodDescrip, prodPrice);
 	        
@@ -154,5 +193,9 @@ public class ProductUI {
 
 	    dialog.showAndWait();
 	}
+	
+	private void warn(String message) {
+        sm.getSystem().warn(message);
+    }
 	
 }

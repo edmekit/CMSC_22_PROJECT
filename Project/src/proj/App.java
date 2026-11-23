@@ -69,6 +69,8 @@ public class App {
     public void warn(String message) {
         Alert a = new Alert(Alert.AlertType.WARNING, message); //popup dialog with a warning icon
         a.setHeaderText(null);
+        a.getDialogPane().getStylesheets().add(getClass().getResource("/styles/inventory.css").toExternalForm());
+        a.getDialogPane().getStyleClass().add("warning-dialog");
         a.showAndWait();
     }
 }

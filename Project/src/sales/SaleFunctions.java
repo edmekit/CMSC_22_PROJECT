@@ -25,20 +25,18 @@ public class SaleFunctions implements Serializable {
         this.transacs = transacs;
     }
 	
-	public void addSale(InventoryItem toSell, String id, int quantity) {
-		if(toSell == null) return; //if the product specified does not exist, return immediately
+	public String addSale(InventoryItem toSell, String id, int quantity) {
 		
 		if(toSell.getQuantity() <= 0) {
-			System.out.println("The product is no longer in stock!");
-			return; // if the product is not in the inventory or has no stock, return immediately
+			return "The product is no longer in stock!" ; // if the product is not in the inventory or has no stock, return immediately
 		} else if (toSell.getQuantity() < quantity) {
-			System.out.println("Not enough stock.");
-			return;
+			return "Not enough stock.";
 		}
 		transacs.recordSale(toSell, quantity, id);
 		toSell.setQuantity(toSell.getQuantity() - quantity);
 		earnings += toSell.getPrice() * quantity;
 		System.out.print(earnings);
+		return null; // Success
 	}
 	
 	public double getEarn() {

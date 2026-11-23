@@ -18,14 +18,19 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import proj.SceneManager;
+import proj.User;
 
 public class TransactionUI {
+	private SceneManager sm;
 	private Transactions transactions;
 	private TableView<Transaction> table;
 	private Label balanceLabel = new Label();
+	private User user;
 	
 	public TransactionUI(SceneManager sm) {
+		this.sm = sm;
 		this.transactions = sm.getTransactions();
+		this.user = sm.getSystem().getCurrentUser();
 	}
 	
 	public Parent showTransac() {
@@ -132,17 +137,43 @@ public class TransactionUI {
 		Button recordBtn = (Button) dialog.getDialogPane().lookupButton(record);
 		recordBtn.setOnAction(e -> {
 			if (type.getValue().equals(DonationTransaction.CASH)) {
-				String goodperson = donor.getText();
-				Double amt = Double.valueOf(amount.getText());
-				transactions.recordCashDonation(goodperson, amt, "dd");
+				String donorName = donor.getText();
+				if (donorName.isEmpty()) {warn("Enter the donor's name."); return;}
+				
+				Double amt;
+				try {
+					amt = Double.valueOf(amount.getText());
+				}
+				catch (NumberFormatException ex) {
+					warn("Amount must be a number."); return;
+				}
+				if (amt <= 0) {
+					warn("Amount must be a valid positive number");
+					return;
+				}
+				transactions.recordCashDonation(donorName, amt, user.getUsername());
 				transactions.setBalance(transactions.getBalance() + amt);
 			}
 			else {
-				String goodperson = donor.getText();
+				String donorName = donor.getText();
 				String name = itemName.getText();
-				int qty = Integer.valueOf(itemQty.getText());
+				if (donorName.isEmpty()) {
+					warn("Enter the donor's name."); return;
+				}
 				
-				transactions.recordItemDonation(goodperson, name, qty, "dd");
+				int qty;
+				try {
+					qty = Integer.valueOf(itemQty.getText());
+				}
+				catch (NumberFormatException ex) {
+					warn("Quantity must be a number."); return;
+				}
+				if (qty <= 0) {
+					warn("Quantity must be a valid positive number");
+					return;
+				}
+				
+				transactions.recordItemDonation(donorName, name, qty, user.getUsername());
 			}
 		});
 		
@@ -151,6 +182,10 @@ public class TransactionUI {
 		
 		
 	}
+	
+	private void warn(String message) {
+        sm.getSystem().warn(message);
+    }
 
 
 }

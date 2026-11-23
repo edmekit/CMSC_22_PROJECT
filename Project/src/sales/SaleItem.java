@@ -12,6 +12,7 @@ import product.*;
 public class SaleItem implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String saleId;
+	private int currId = 0;
 	private InventoryItem item;
 	private int quantity;
 	
@@ -24,5 +25,9 @@ public class SaleItem implements Serializable {
 	public String getId() {return this.saleId;}
 	public InventoryItem getProduct() {return this.item;}
 	public double getQuantity() {return this.quantity;}
+	
+	public String createId() {
+		return "S" + (currId++);
+	}
 	
 }

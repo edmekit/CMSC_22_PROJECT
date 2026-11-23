@@ -56,3 +56,19 @@
 	-fx-padding: 8px;
 	-fx-background-radius: 10px;
 }
+
+.warning-dialog {
+	-fx-background-color: white;
+}
+
+.warning-dialog .label, .warning-dialog .content.label {
+	-fx-text-fill: #202830;
+    -fx-font-size: 16px;
+}
+
+.warning-dialog .button {
+	-fx-background-color: #AD2828;
+	-fx-text-fill: white;
+	-fx-font-weight: bold;
+    -fx-font-size: 10px;
+}

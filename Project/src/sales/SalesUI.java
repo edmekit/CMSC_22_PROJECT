@@ -16,11 +16,12 @@ import proj.SceneManager;
 import transac.Transactions;
 
 public class SalesUI {
-	
+	private SceneManager sm;
 	private Inventory items;
 	private SaleFunctions saleFunctions;
 	
 	public SalesUI(SceneManager sm) {
+		this.sm = sm;
 		this.items = sm.getInventory();
 		this.saleFunctions = sm.getSales();
 	}
@@ -70,14 +71,33 @@ public class SalesUI {
 		complete.setOnAction(e -> {
 			String id = "1";
 			InventoryItem product = items.findItem(selectedProd.getValue());
-			System.out.println(product.getQuantity());
-			int quan = Integer.valueOf(quantity.getText());
+			if (product == null) {
+				warn("Select a product.");
+	    		e.consume();
+	    		return;
+			}
 			
-			saleFunctions.addSale(product, id, quan);
+			int quan;
+			try {
+				quan = Integer.valueOf(quantity.getText());
+			} catch (NumberFormatException ex) {
+	        	warn("Quantity must be a whole number.");
+	        	return;
+	        }
+			if (quan <= 0) {
+	        	warn("Quantity must be greater than 0."); return;
+	        }
+			
+			String error = saleFunctions.addSale(product, id, quan);
+			if (error != null) {warn(error); return;}
 			earningLabel.setText("PHP " + saleFunctions.getEarn());
 			
 			});
 		
 		return root;
 	}
+	
+	private void warn(String message) {
+        sm.getSystem().warn(message);
+    }
 }

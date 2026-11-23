@@ -25,6 +25,7 @@ public class Dashboard {
 	
     public Dashboard(SceneManager sm) {
     	this.sm = sm;
+    	this.currentUser = sm.getSystem().getCurrentUser();
     	
         root = new BorderPane();
 
@@ -40,7 +41,7 @@ public class Dashboard {
     	VBox btns = new VBox(10);
     	sidebar.getStyleClass().add("sidebar");
     	
-    	Label greet = new Label("Hello, Manager"); // put name maybe
+    	Label greet = new Label("Hello, " + currentUser.getUsername() + " (" + currentUser.getRoleName() + ")"); // put name maybe
     	sidebar.getChildren().add(greet);
     	
     	sidebar.setPrefWidth(150);
