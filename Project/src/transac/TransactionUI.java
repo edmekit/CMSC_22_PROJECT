@@ -183,6 +183,7 @@ public class TransactionUI {
 				}
 				transactions.recordCashDonation(donorName, amt, user.getUsername(), transactionDate);
 				transactions.setBalance(transactions.getBalance() + amt);
+				updateBalance();
 			}
 			else {
 				String donorName = donor.getText();
