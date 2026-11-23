@@ -73,7 +73,6 @@ public class SalesUI {
 			InventoryItem product = items.findItem(selectedProd.getValue());
 			if (product == null) {
 				warn("Select a product.");
-	    		e.consume();
 	    		return;
 			}
 			
