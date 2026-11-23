@@ -49,14 +49,10 @@ public abstract class User implements Serializable {
 				return (ArrayList<User>) usr; 	
 			} catch(IOException e) {
 				ArrayList<User> usr = new ArrayList<User>();
-				usr.add(new Manager("Frieren", "goathimmel"));
-		        usr.add(new Clerk("Maomao", "jinshisama"));
 		        return usr;
 			}
 		}else {
 			ArrayList<User> usr = new ArrayList<User>();
-			usr.add(new Manager("Frieren", "goathimmel"));
-	        usr.add(new Clerk("Maomao", "jinshisama"));
 	        return usr;
 		}
 		

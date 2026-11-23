@@ -30,6 +30,11 @@ public class ProductList implements Serializable {
 		products.add(product);
 		numProduct++;
 		}
+	
+	public void removeProd(Product product) {
+		products.remove(product);
+		numProduct--;
+	}
 	public int getNumProds() {
 		return this.numProduct;
 	}

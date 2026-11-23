@@ -17,7 +17,7 @@ import transac.Transactions;
 
 public class SaleFunctions implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private Transactions transacs;
+	private transient Transactions transacs;
 	private double earnings;
 	
     public SaleFunctions(Transactions transacs) {
@@ -56,10 +56,11 @@ public class SaleFunctions implements Serializable {
         }
     }
 	
-	public static SaleFunctions loadSales(Path filepath) {
+	public static SaleFunctions loadSales(Path filepath, Transactions transactions) {
 		try (ObjectInputStream ois = new ObjectInputStream(Files.newInputStream(filepath))){
 			try {
 				SaleFunctions sales = (SaleFunctions) ois.readObject();
+				sales.transacs = transactions;
 				return sales;
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();

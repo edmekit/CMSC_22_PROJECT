@@ -21,11 +21,11 @@ import proj.SceneManager;
 import proj.User;
 
 public class ProductUI {
-	private ProductList products;
+	private ProductList productlist;
 	private User user;
 	
 	public ProductUI(SceneManager sm) {
-		this.products = sm.getProducts();
+		this.productlist = sm.getProducts();
 		this.user = sm.getSystem().getCurrentUser();
 	}
 	
@@ -40,22 +40,29 @@ public class ProductUI {
 		title.getStyleClass().add("title");
 		
 		HBox levels = getLevels();
-		TableView products = getProds();
+		TableView<Product> products = getProds();
 		
 		Button addItem = new Button("Add a product");
     	Button editItem = new Button("Edit selected");
+    	Button delItem = new Button("Delete selected");
     	
     	addItem.setManaged(user.canManageProducts());
     	addItem.setVisible(user.canManageProducts());
     	editItem.setManaged(user.canManageProducts());
     	editItem.setVisible(user.canManageProducts());
+    	delItem.setManaged(user.canManageProducts());
+    	delItem.setVisible(user.canManageProducts());
     	
     	
-    	HBox btns = new HBox(5, addItem, editItem);
+    	HBox btns = new HBox(5, addItem, editItem, delItem);
 		
 		root.getChildren().addAll(title, levels, products, btns);
 		
 		addItem.setOnAction(e -> addProduct());
+		delItem.setOnAction(e -> {
+			Product product = products.getSelectionModel().getSelectedItem();
+			productlist.removeProd(product);
+		});
 		
 		return root;
 	}
@@ -63,14 +70,14 @@ public class ProductUI {
 	private HBox getLevels() {
 		HBox display = new HBox();
 		
-		String numProducts = "Products: " + products.getNumProds();
+		String numProducts = "Products: " + productlist.getNumProds();
 		display.getChildren().addAll(new Label(numProducts)); 
 		display.getStyleClass().add("levels");
 		
 		return display;
 	}
 	
-	private TableView getProds() {
+	private TableView<Product> getProds() {
 		TableView<Product> table = new TableView<>();
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         
@@ -94,7 +101,7 @@ public class ProductUI {
         table.getColumns().addAll(colId, colName, colDescrip, colPrice);
         table.getStyleClass().add("items-container");
         
-        table.setItems(products.getProducts());
+        table.setItems(productlist.getProducts());
         
         return table;
 	}
@@ -135,14 +142,14 @@ public class ProductUI {
 	    
 	    createBtn.setOnAction(e -> {
 	        
-	        String prodId = String.valueOf(products.getNumProds() + 1);
+	        String prodId = String.valueOf(productlist.getNumProds() + 1);
 	        String prodName = name.getText();
 	        String prodDescrip = description.getText();
 	        Double prodPrice = Double.valueOf(price.getText());
 	        
 	        Product newProd = new Product(prodId, prodName, prodDescrip, prodPrice);
 	        
-	        products.addProduct(newProd);
+	        productlist.addProduct(newProd);
 	    });
 
 	    dialog.showAndWait();

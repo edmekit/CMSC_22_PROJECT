@@ -13,11 +13,11 @@ import java.nio.file.Paths;
 import inventory.Inventory;
 
 public class Main extends Application {
-	private static final Path INVENTORY_FILE = Paths.get("Project/src/storage/inventory.txt");
-	private static final Path PRODUCT_FILE = Paths.get("Project/src/storage/products.txt");
-	private static final Path TRANSACTIONS_FILE = Paths.get("Project/src/storage/transactions.txt");
-	private static final Path SALES_FILE = Paths.get("Project/src/storage/sales.txt");
-	private static final Path APP_FILE = Paths.get("Project/src/storage/app.txt");
+	private static final Path INVENTORY_FILE = Paths.get("src/storage/inventory.txt");
+	private static final Path PRODUCT_FILE = Paths.get("src/storage/products.txt");
+	private static final Path TRANSACTIONS_FILE = Paths.get("src/storage/transactions.txt");
+	private static final Path SALES_FILE = Paths.get("src/storage/sales.txt");
+	private static final Path APP_FILE = Paths.get("src/storage/app.txt");
 	Inventory inventory;
 	App system;
 	ProductList products;
@@ -39,8 +39,7 @@ public class Main extends Application {
 	    inventory = Inventory.loadInventory(INVENTORY_FILE);
 	    products = ProductList.loadProducts(PRODUCT_FILE);
 	    transactions = Transactions.loadTransacts(TRANSACTIONS_FILE);
-	    sales = SaleFunctions.loadSales(SALES_FILE);
-	    products.addProduct(new Product("1", "Nova", "HAHe", 12.0));
+	    sales = SaleFunctions.loadSales(SALES_FILE, transactions);
 
 	    SceneManager sm = new SceneManager(stage, system, inventory, products, transactions, sales);
 

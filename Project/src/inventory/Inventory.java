@@ -43,12 +43,16 @@ public class Inventory implements Serializable {
 		numProduct++;
 	}
 	
+	public void removeItem(InventoryItem item) {
+		items.remove(item);
+		numProduct--;
+	}
+	
 	public void restock(String id, int quanti) {
 		if (quanti <= 0) {
 			// Cannot be less than or equal 0
 			return;
-		}
-		
+		}	
 	}
 	
 	public int getNumProduct() {

@@ -43,7 +43,7 @@ public class InventoryUI {
         title.getStyleClass().add("title");
     	
     	HBox levels = getLevels(); // or something type shit
-    	TableView items = getItems();
+    	TableView<InventoryItem> items = getItems();
     	
     	Button addItem = new Button("Add an item");
     	addItem.setManaged(user.canManageInventory());
@@ -53,11 +53,19 @@ public class InventoryUI {
     	editItem.setManaged(user.canManageInventory());
     	editItem.setVisible(user.canManageInventory());
     	
-    	HBox btns = new HBox(5, addItem, editItem);
+    	Button delItem = new Button("Delete selected");
+    	delItem.setManaged(user.canManageInventory());
+    	delItem.setVisible(user.canManageInventory());
+    	
+    	HBox btns = new HBox(5, addItem, editItem, delItem);
     	
     	root.getChildren().addAll(title, levels, items, btns);
     	
     	addItem.setOnAction(e -> addItem());
+        delItem.setOnAction(e -> {
+        	InventoryItem selectedItem = items.getSelectionModel().getSelectedItem();
+        	inventory.removeItem(selectedItem);
+        });
     	
     	return root;
     }
@@ -71,7 +79,7 @@ public class InventoryUI {
     	return display;
     }
     
-    private TableView getItems() {
+    private TableView<InventoryItem> getItems() {
 		TableView<InventoryItem> table = new TableView<>();
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         
