@@ -237,7 +237,7 @@ public class TransactionUI {
 		Alert confirm = new Alert(Alert.AlertType.CONFIRMATION, "Void transaction " + selected.getId() + "?", ButtonType.YES, ButtonType.NO);
 		confirm.showAndWait().ifPresent(result -> {
 			if (result == ButtonType.YES) {
-				transactions.voidTransaction(selected);
+				transactions.voidTransaction(selected,sm.getInventory());
 				table.refresh();
 				updateBalance();
 			}

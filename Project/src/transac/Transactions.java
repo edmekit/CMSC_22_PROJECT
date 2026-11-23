@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import inventory.Inventory;
 import inventory.InventoryItem;
 import javafx.collections.ObservableList;
 
@@ -54,13 +55,13 @@ public class Transactions implements Serializable {
 	
 	// Voiding
 	
-	public boolean voidTransaction(Transaction t) {
+	public boolean voidTransaction(Transaction t, Inventory inv) {
 		if (t == null || t.isVoided()) {return false;}
 		t.markVoided();
-		
+
 		if (t instanceof SaleTransaction) {					// Voided sale returns its stock
 			SaleTransaction sale = (SaleTransaction) t;
-			InventoryItem item = sale.getItem();
+			InventoryItem item = inv.findItem(sale.getItem().getProdName());
 			item.setQuantity(item.getQuantity() + sale.getQuantity());
 		}
 		return true;

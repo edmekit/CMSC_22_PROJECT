@@ -92,7 +92,10 @@ public class Inventory implements Serializable {
     private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
         ois.defaultReadObject();
         List<InventoryItem> list = (List<InventoryItem>) ois.readObject(); 
-        items = FXCollections.observableArrayList(list); 
+        if(items == null) {
+        	items = FXCollections.observableArrayList(list); 
+        }
+        items.setAll(list);
     }
 
 }

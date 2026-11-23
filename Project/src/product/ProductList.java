@@ -81,6 +81,10 @@ public class ProductList implements Serializable {
     private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
         ois.defaultReadObject();
         List<Product> list = (List<Product>) ois.readObject(); 
-        products = FXCollections.observableArrayList(list); 
+        
+        if(products == null) {
+        	products = FXCollections.observableArrayList(list); 
+        }
+        products.setAll(list);
     }
 }

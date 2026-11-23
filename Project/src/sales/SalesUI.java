@@ -17,17 +17,15 @@ import transac.Transactions;
 
 public class SalesUI {
 	private SceneManager sm;
-	private Inventory items;
-	private SaleFunctions saleFunctions;
 	
 	public SalesUI(SceneManager sm) {
 		this.sm = sm;
-		this.items = sm.getInventory();
-		this.saleFunctions = sm.getSales();
 	}
 	
 	public Parent showSales() {
 		
+		inventory.Inventory items = sm.getInventory();
+		SaleFunctions saleFunctions = sm.getSales();
 		VBox root = new VBox(20);
 		root.setPadding(new Insets(25));
 		
