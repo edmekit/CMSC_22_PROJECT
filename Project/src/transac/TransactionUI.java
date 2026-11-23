@@ -1,16 +1,21 @@
 package transac;
 
+import java.time.LocalDate;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -47,16 +52,21 @@ public class TransactionUI {
 		table = getTable();
 		VBox.setVgrow(table, Priority.ALWAYS);
 		
-		Button donate = new Button("Record donation");
-		donate.setOnAction(e -> donationForm());
+		Button donateBtn = new Button("Record donation");
+		donateBtn.setOnAction(e -> donationForm());
 		
-		HBox btns = new HBox(5, donate);
+		Button voidBtn = new Button("Void selected");
+		voidBtn.setOnAction(e -> voidSelected());
+		
+		HBox btns = new HBox(5, donateBtn, voidBtn);
 		
 		root.getChildren().addAll(title, levels, table, btns);
 		
 		return root;
 	}
 	
+	
+
 	private HBox getLevels() {
 		HBox display = new HBox(balanceLabel);
 		display.getStyleClass().add("levels");
@@ -77,27 +87,38 @@ public class TransactionUI {
 		// cols 
 		TableColumn<Transaction, String> idCol		    = new TableColumn<>("ID");
 		TableColumn<Transaction, String> typeCol 		= new TableColumn<>("Type");
+		TableColumn<Transaction, String> dateCol 		= new TableColumn<>("Date");
 		TableColumn<Transaction, String> detailsCol 	= new TableColumn<>("Details");
-		TableColumn<Transaction, String> byCol 			= new TableColumn<>("By");
 		TableColumn<Transaction, String> amountCol 		= new TableColumn<>("Amount");
+		TableColumn<Transaction, String> statusCol 		= new TableColumn<>("Status");
 		
 		idCol.getStyleClass().add("item-header");
 		typeCol.getStyleClass().add("item-header");
+		dateCol.getStyleClass().add("item-header");
 		detailsCol.getStyleClass().add("item-header");
-		byCol.getStyleClass().add("item-header");
 		amountCol.getStyleClass().add("item-header");
+		statusCol.getStyleClass().add("item-header");
 		
 		idCol.setCellValueFactory(c 		-> new SimpleStringProperty(c.getValue().getId()));
 		typeCol.setCellValueFactory(c 		-> new SimpleStringProperty(c.getValue().getType()));
-		detailsCol.setCellValueFactory(c 	-> new SimpleStringProperty(c.getValue().getDetails()));
-		byCol.setCellValueFactory(c 		-> new SimpleStringProperty(c.getValue().getRecordedBy()));
+		dateCol.setCellValueFactory(c 		-> new SimpleStringProperty(c.getValue().getDate()));
+		detailsCol.setCellValueFactory(c 	-> new SimpleStringProperty(c.getValue().getDetails() + "\n Recorded by: " + c.getValue().getRecordedBy()));
 		amountCol.setCellValueFactory(c 	-> {
 			double amt = c.getValue().getAmount();
 			return new SimpleStringProperty(amt == 0 ? "-" : String.format("%.2f", amt));
 		});
+		statusCol.setCellValueFactory(c 	-> new SimpleStringProperty(c.getValue().isVoided() ? "VOIDED" : "Active"));
 		
-		table.getColumns().addAll(idCol, typeCol, detailsCol, byCol, amountCol);
+		table.getColumns().addAll(idCol, typeCol, dateCol, detailsCol, amountCol, statusCol);
 		table.getStyleClass().add("items-container");
+		
+		table.setRowFactory(tv -> new TableRow<Transaction>() {
+			@Override
+			protected void updateItem(Transaction item, boolean empty) {
+				super.updateItem(item, empty);
+				setOpacity(!empty && item != null && item.isVoided() ? 0.5 : 1.0);
+			}
+		});
 		
 		return table;
 	}
@@ -112,20 +133,23 @@ public class TransactionUI {
 		TextField amount = new TextField();
 		TextField itemName = new TextField();
 		TextField itemQty = new TextField();
+		DatePicker date = new DatePicker();
 		
 		amount.disableProperty().bind(type.valueProperty().isEqualTo(DonationTransaction.ITEM));
 		itemName.disableProperty().bind(type.valueProperty().isEqualTo(DonationTransaction.CASH));
 		itemQty.disableProperty().bind(type.valueProperty().isEqualTo(DonationTransaction.CASH));
+		date.setValue(LocalDate.now());
 		
 		GridPane grid = new GridPane();
 		grid.setHgap(10);
 		grid.setVgap(10);
 		grid.setPadding(new Insets(15));
 		grid.addRow(0, new Label("Donor:"), donor);
-		grid.addRow(1, new Label("Type:"), type);
-		grid.addRow(2, new Label("Amount (cash):"), amount);
-		grid.addRow(3, new Label("Item name:"), itemName);
-		grid.addRow(4, new Label("Item quantity:"), itemQty);
+		grid.addRow(1, new Label("Date:"), date);
+		grid.addRow(2, new Label("Type:"), type);
+		grid.addRow(3, new Label("Amount (cash):"), amount);
+		grid.addRow(4, new Label("Item name:"), itemName);
+		grid.addRow(5, new Label("Item quantity:"), itemQty);
 		
 		Dialog<ButtonType> dialog = new Dialog<>();
 		dialog.setTitle("Record donation");
@@ -139,6 +163,12 @@ public class TransactionUI {
 			if (type.getValue().equals(DonationTransaction.CASH)) {
 				String donorName = donor.getText();
 				if (donorName.isEmpty()) {warn("Enter the donor's name."); return;}
+				LocalDate transactionDate = date.getValue();
+
+				if (transactionDate == null) {
+				    warn("Select a transaction date.");
+				    return;
+				}
 				
 				Double amt;
 				try {
@@ -151,7 +181,7 @@ public class TransactionUI {
 					warn("Amount must be a valid positive number");
 					return;
 				}
-				transactions.recordCashDonation(donorName, amt, user.getUsername());
+				transactions.recordCashDonation(donorName, amt, user.getUsername(), transactionDate);
 				transactions.setBalance(transactions.getBalance() + amt);
 			}
 			else {
@@ -159,6 +189,16 @@ public class TransactionUI {
 				String name = itemName.getText();
 				if (donorName.isEmpty()) {
 					warn("Enter the donor's name."); return;
+				}
+				if (name.isEmpty()) {
+					warn("Enter item name."); return;
+				}
+				
+				LocalDate transactionDate = date.getValue();
+
+				if (transactionDate == null) {
+				    warn("Select a transaction date.");
+				    return;
 				}
 				
 				int qty;
@@ -173,7 +213,7 @@ public class TransactionUI {
 					return;
 				}
 				
-				transactions.recordItemDonation(donorName, name, qty, user.getUsername());
+				transactions.recordItemDonation(donorName, name, qty, user.getUsername(), transactionDate);
 			}
 		});
 		
@@ -181,6 +221,30 @@ public class TransactionUI {
 		dialog.showAndWait();
 		
 		
+	}
+	
+	private void voidSelected() {
+		Transaction selected = table.getSelectionModel().getSelectedItem();
+		if (selected == null) {
+			warn("Select a transaction to void first.");
+			return;
+		}
+		if (selected.isVoided()) {
+			warn("That transaction is already voided.");
+			return;
+		}
+		
+		Alert confirm = new Alert(Alert.AlertType.CONFIRMATION, "Void transaction " + selected.getId() + "?", ButtonType.YES, ButtonType.NO);
+		confirm.showAndWait().ifPresent(result -> {
+			if (result == ButtonType.YES) {
+				transactions.voidTransaction(selected);
+				table.refresh();
+				updateBalance();
+			}
+		});
+		
+		
+		return;
 	}
 	
 	private void warn(String message) {

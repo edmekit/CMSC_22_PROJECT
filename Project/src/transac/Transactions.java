@@ -8,6 +8,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,12 +26,12 @@ public class Transactions implements Serializable {
 		history.add(0, new SaleTransaction(newSaleId(), recordedBy, item, quantity));
 	}
 	
-	public void recordCashDonation(String donor, double amount, String recordedBy) {
-		history.add(0, new DonationTransaction(newDonId(), recordedBy, donor, amount));
+	public void recordCashDonation(String donor, double amount, String recordedBy, LocalDate date) {
+		history.add(0, new DonationTransaction(newDonId(), recordedBy, donor, amount, date));
 	}
 	
-	public void recordItemDonation(String donor, String itemName, int quantity, String recordedBy) {
-		history.add(0, new DonationTransaction(newDonId(), recordedBy, donor, itemName, quantity));
+	public void recordItemDonation(String donor, String itemName, int quantity, String recordedBy, LocalDate date) {
+		history.add(0, new DonationTransaction(newDonId(), recordedBy, donor, itemName, quantity, date));
 	}
 	
 	private String newSaleId() {
@@ -50,6 +51,24 @@ public class Transactions implements Serializable {
 	public void setBalance(Double amt) {
 		this.balance = amt;
 	}
+	
+	// Voiding
+	
+	public boolean voidTransaction(Transaction t) {
+		if (t == null || t.isVoided()) {return false;}
+		t.markVoided();
+		
+		if (t instanceof SaleTransaction) {					// Voided sale returns its stock
+			SaleTransaction sale = (SaleTransaction) t;
+			InventoryItem item = sale.getItem();
+			item.setQuantity(item.getQuantity() + sale.getQuantity());
+		}
+		return true;
+	}
+	
+	
+	
+	
 	
 	private void writeObject(ObjectOutputStream oos) throws IOException {
         oos.defaultWriteObject();

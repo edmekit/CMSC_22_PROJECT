@@ -1,5 +1,7 @@
 package transac;
 
+import java.time.LocalDate;
+
 import inventory.InventoryItem;
 
 public class SaleTransaction extends Transaction {
@@ -26,5 +28,8 @@ public class SaleTransaction extends Transaction {
 	
 	@Override
 	public double getAmount() {return total;}
+	
+	@Override
+	public String getDate() {return "-";}
 
 }
