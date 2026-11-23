@@ -69,7 +69,7 @@ public class SalesUI {
 		root.getChildren().addAll(title, header, saleEntry, complete);
 		
 		complete.setOnAction(e -> {
-			String id = "1";
+			
 			InventoryItem product = items.findItem(selectedProd.getValue());
 			if (product == null) {
 				warn("Select a product.");
@@ -88,7 +88,7 @@ public class SalesUI {
 	        	warn("Quantity must be greater than 0."); return;
 	        }
 			
-			String error = saleFunctions.addSale(product, id, quan);
+			String error = saleFunctions.addSale(product, sm.getSystem().getCurrentUser().getUsername(), quan);
 			if (error != null) {warn(error); return;}
 			earningLabel.setText("PHP " + saleFunctions.getEarn());
 			

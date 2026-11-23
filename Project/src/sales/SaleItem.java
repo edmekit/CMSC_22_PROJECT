@@ -7,7 +7,6 @@ package sales;
 import java.io.Serializable;
 
 import inventory.InventoryItem;
-import product.*;
 
 public class SaleItem implements Serializable {
 	private static final long serialVersionUID = 1L;
