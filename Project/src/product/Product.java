@@ -32,6 +32,6 @@ public class Product implements Serializable {
 	}
 	public void setProdName(String pn) {this.prodName = pn;}
 	public void setDescription(String d) {this.description = d;}
-	public void setPrice(String p) {this.prodName = p;}
+	public void setPrice(double p) {this.price = p;}
 	public void setId(String id) {this.prodId = id;}
 }

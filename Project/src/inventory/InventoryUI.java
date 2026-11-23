@@ -3,6 +3,7 @@ package inventory;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
@@ -26,6 +27,9 @@ public class InventoryUI {
 	private Inventory inventory;
 	private ProductList list;
 	private User user;
+	private Label itemCount;
+	private Label restockCount;
+	
 
     public InventoryUI(SceneManager sm) {
     	this.sm = sm;
@@ -51,7 +55,7 @@ public class InventoryUI {
     	addItem.setManaged(user.canManageInventory());
     	addItem.setVisible(user.canManageInventory());
     	
-    	Button editItem = new Button("Edit selected");
+    	Button editItem = new Button("Restock item");
     	editItem.setManaged(user.canManageInventory());
     	editItem.setVisible(user.canManageInventory());
     	
@@ -64,6 +68,15 @@ public class InventoryUI {
     	root.getChildren().addAll(title, levels, items, btns);
     	
     	addItem.setOnAction(e -> addItem());
+    	editItem.setOnAction(e -> {
+    		InventoryItem selectedItem = items.getSelectionModel().getSelectedItem();
+        	
+        	if (selectedItem == null) {
+        		warn("Select an item to restock.");
+        		return;
+        	}
+        	editItem(selectedItem);
+    	});
         delItem.setOnAction(e -> {
         	InventoryItem selectedItem = items.getSelectionModel().getSelectedItem();
         	
@@ -71,8 +84,20 @@ public class InventoryUI {
         		warn("Select an item to delete first.");
         		return;
         	}
-
-        	inventory.removeItem(selectedItem);
+        	if (inventory.getItems().size() <= 0) {
+        		warn("No item to delete");
+        		return;
+        	}
+        	
+        	Alert confirm = new Alert(Alert.AlertType.CONFIRMATION,
+		            "Delete " + selectedItem.getProdName() + "?", ButtonType.YES, ButtonType.NO);
+		    confirm.setHeaderText(null);
+		    confirm.showAndWait().ifPresent(result -> {
+		        if (result == ButtonType.YES) {
+		        	inventory.removeItem(selectedItem);
+		        	itemCount.setText("Products: " + String.valueOf(inventory.getNumProduct()));
+		        }
+		    });
         });
     	
     	return root;
@@ -80,8 +105,9 @@ public class InventoryUI {
     
     private HBox getLevels() {
     	HBox display = new HBox();
-    	String itemCount = "Products: " + String.valueOf(inventory.getNumProduct());
-    	display.getChildren().addAll(new Label(itemCount), new Label("\tNeeds restocking: 0")); // hardcoded pa tamad sir
+    	itemCount = new Label("Products: " + String.valueOf(inventory.getNumProduct()));
+    	restockCount = new Label("\tNeeds restocking: " + String.valueOf(inventory.getNeedRestock()));
+    	display.getChildren().addAll(itemCount, restockCount); 
     	display.getStyleClass().add("levels");
     	
     	return display;
@@ -162,17 +188,74 @@ public class InventoryUI {
 	        	quan = Integer.parseInt(quantity.getText().trim());
 	        } catch (NumberFormatException ex) {
 	        	warn("Quantity must be a whole number.");
+	        	e.consume();
 	        	return;
 	        }
 	        if (quan <= 0) {
-	        	warn("Quantity must be greater than 0."); return;
+	        	warn("Quantity must be greater than 0."); 
+	        	e.consume();
+	        	return;
 	        }
 	        
 	        Product product = list.findProd(selectedProd.getValue());
-	        inventory.addProduct(product, quan);
+	        if (!inventory.addProduct(product, quan)) {
+	        	warn("Product already in inventory.");
+	        	e.consume();
+	        	return;
+	        } else {
+	        	itemCount.setText("Products: " + String.valueOf(inventory.getNumProduct()));
+	        }
 	    });
 
 	    dialog.showAndWait();
+    }
+    
+    private void editItem(InventoryItem item) {
+    	 Dialog<Void> dialog = new Dialog<>();	// make dialog window
+ 	    dialog.setTitle("Restock item");
+ 	    
+ 	    ButtonType restockType = new ButtonType("Add");   // make button
+ 		dialog.getDialogPane().getButtonTypes().add(		// add buttons to the window
+ 		    restockType);
+ 		
+ 		TextField quantity = new TextField();	
+	    quantity.setPromptText("Quantity");
+	        
+		// left side
+	    VBox labels = new VBox(15, 
+	    		new Label("Product:"),
+	    		new Label("Restock quantity:")
+	    );
+	    
+	    // right side
+	    VBox fields = new VBox(6,
+	    		new Label(item.getProdName()),
+	     		quantity);
+	    
+	    // combine in a horizontal container
+	    HBox content = new HBox(3, labels, fields);
+	    
+	    dialog.getDialogPane().setContent(content);
+	    Button restockBtn = (Button) dialog.getDialogPane().lookupButton(restockType);
+	    
+	    restockBtn.setOnAction(e -> {
+	    	int quan;
+	    	try {
+	        	quan = Integer.parseInt(quantity.getText().trim());
+	        } catch (NumberFormatException ex) {
+	        	warn("Quantity must be a whole number.");
+	        	e.consume();
+	        	return;
+	        }
+	        if (quan <= 0) {
+	        	warn("Quantity must be greater than 0."); 
+	        	e.consume();
+	        	return;
+	        }
+	        item.setQuantity(quan);
+	        restockCount.setText("\tNeeds restocking: " + String.valueOf(inventory.getNeedRestock()));
+	    });
+ 		dialog.showAndWait();
     }
     
     private void warn(String message) {
