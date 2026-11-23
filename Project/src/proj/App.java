@@ -4,6 +4,8 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.scene.control.Alert;
+
 public class App {   
     private List<User> users = new ArrayList<>();
     private User currentUser;
@@ -62,5 +64,11 @@ public class App {
     }
     public void saveUsersList(Path filepath) {
     	User.saveUsers(filepath, users);
+    }
+    
+    public void warn(String message) {
+        Alert a = new Alert(Alert.AlertType.WARNING, message); //popup dialog with a warning icon
+        a.setHeaderText(null);
+        a.showAndWait();
     }
 }
