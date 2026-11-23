@@ -25,6 +25,7 @@ public class ProductUI {
 	private SceneManager sm;
 	private ProductList productlist;
 	private User user;
+	private Label numProducts;
 	
 	public ProductUI(SceneManager sm) {
 		this.sm = sm;
@@ -62,6 +63,16 @@ public class ProductUI {
 		root.getChildren().addAll(title, levels, products, btns);
 		
 		addItem.setOnAction(e -> addProduct());
+		editItem.setOnAction(e -> {
+			Product product = products.getSelectionModel().getSelectedItem();
+						
+			if (product == null) {
+				warn("Select a product to delete first.");
+				return;
+			}
+			
+			editProduct(product);
+		});
 		delItem.setOnAction(e -> {
 			Product product = products.getSelectionModel().getSelectedItem();
 			
@@ -76,6 +87,7 @@ public class ProductUI {
 		    confirm.showAndWait().ifPresent(result -> {
 		        if (result == ButtonType.YES) {
 		            productlist.removeProd(product);
+		            numProducts.setText("Products: " + productlist.getNumProds());
 		        }
 		    });
 		});
@@ -86,8 +98,8 @@ public class ProductUI {
 	private HBox getLevels() {
 		HBox display = new HBox();
 		
-		String numProducts = "Products: " + productlist.getNumProds();
-		display.getChildren().addAll(new Label(numProducts)); 
+		numProducts = new Label("Products: " + productlist.getNumProds());
+		display.getChildren().addAll(numProducts); 
 		display.getStyleClass().add("levels");
 		
 		return display;
@@ -163,18 +175,81 @@ public class ProductUI {
 	        
 	        if (prodName.isEmpty()) {
 	            warn("Product name cannot be empty.");
-	            e.consume();
 	            return;
 	        }
 	        if (productlist.findProd(prodName) != null) {
 	            warn("A product with that name already exists.");
-	            e.consume();
 	            return;
 	        }
 	        
 	        Double prodPrice;
 	        try {
 	            prodPrice = Double.parseDouble(price.getText().trim());
+	        } catch (NumberFormatException ex) {
+	            warn("Price must be a number.");
+	            return;
+	        }
+	        if (prodPrice < 0) {
+	            warn("Price cannot be negative.");
+	            return;
+	        }
+	        
+	        Product newProd = new Product(prodId, prodName, prodDescrip, prodPrice);
+	        
+	        productlist.addProduct(newProd);
+	        numProducts.setText("Products: " + productlist.getNumProds());
+	    });
+
+	    dialog.showAndWait();
+	}
+	
+	private void editProduct(Product prod) {
+		 Dialog<Void> dialog = new Dialog<>();	// make dialog window
+	    dialog.setTitle("Add a product");
+	    
+	    ButtonType createType = new ButtonType("Save changes");   // make button
+		dialog.getDialogPane().getButtonTypes().addAll(		// add buttons to the window
+		    createType,
+		    ButtonType.CANCEL
+		);
+	   
+	    TextField description = new TextField();	
+	    description.setPromptText("Description");
+	    TextField price = new TextField();	
+	    price.setPromptText("Price");
+	    
+		// left side
+	    VBox labels = new VBox(15, 
+	    		new Label("Name:"),
+	    		new Label("Description:"),
+	    		new Label("Price:")
+	    );
+	    
+	    // right side
+	    VBox fields = new VBox(6, new Label(prod.getProdName()), description, price);
+	    
+	    // combine in a horizontal container
+	    HBox content = new HBox(3, labels, fields);
+	    
+	    dialog.getDialogPane().setContent(content);
+	        
+	    Button createBtn = (Button) dialog.getDialogPane().lookupButton(createType); // get create button to apply functions
+	    
+	    createBtn.setOnAction(e -> {
+	        String prodDescrip = description.getText();
+	        
+	        if (prodDescrip.isEmpty()) {
+	            warn("Product description cannot be empty.");
+	            e.consume();
+	            return;
+	        } else {
+	        	prod.setDescription(prodDescrip);
+	        }
+	        
+	        double prodPrice;
+	        try {
+	            prodPrice = Double.parseDouble(price.getText().trim());
+	            
 	        } catch (NumberFormatException ex) {
 	            warn("Price must be a number.");
 	            e.consume();
@@ -185,14 +260,12 @@ public class ProductUI {
 	            e.consume();
 	            return;
 	        }
-	        
-	        Product newProd = new Product(prodId, prodName, prodDescrip, prodPrice);
-	        
-	        productlist.addProduct(newProd);
+	        prod.setPrice(prodPrice);
 	    });
 
 	    dialog.showAndWait();
 	}
+	
 	
 	private void warn(String message) {
         sm.getSystem().warn(message);

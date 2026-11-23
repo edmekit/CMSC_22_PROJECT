@@ -30,17 +30,19 @@ public class Inventory implements Serializable {
 		return null;
 	}
 	
-	public void addProduct(Product product, int quanti) {
+	public boolean addProduct(Product product, int quanti) {
 		if (quanti < 0) {
 			// Cannot be negative
-			return;
+			return false;
 		}
-		if (findItem(product.getId()) != null) {
+		if (findItem(product.getProdName()) != null) {
 			// Product already exists in inventory
-			return;
+			return false;
+		} else {
+			items.add(new InventoryItem(product, quanti));
+			numProduct++;
+			return true;
 		}
-		items.add(new InventoryItem(product, quanti));
-		numProduct++;
 	}
 	
 	public void removeItem(InventoryItem item) {
@@ -54,6 +56,16 @@ public class Inventory implements Serializable {
 			return;
 		}	
 	}
+	
+	public int getNeedRestock() {
+		int count = 0;
+		for (InventoryItem item : items) {
+			if (item.getQuantity() == 0) {
+				count++;
+			}
+		}
+		return count;
+	}	
 	
 	public int getNumProduct() {
 		return this.numProduct;
