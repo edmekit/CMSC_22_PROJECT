@@ -163,12 +163,10 @@ public class ProductUI {
 	        
 	        if (prodName.isEmpty()) {
 	            warn("Product name cannot be empty.");
-	            e.consume();
 	            return;
 	        }
 	        if (productlist.findProd(prodName) != null) {
 	            warn("A product with that name already exists.");
-	            e.consume();
 	            return;
 	        }
 	        
@@ -177,12 +175,10 @@ public class ProductUI {
 	            prodPrice = Double.parseDouble(price.getText().trim());
 	        } catch (NumberFormatException ex) {
 	            warn("Price must be a number.");
-	            e.consume();
 	            return;
 	        }
 	        if (prodPrice < 0) {
 	            warn("Price cannot be negative.");
-	            e.consume();
 	            return;
 	        }
 	        

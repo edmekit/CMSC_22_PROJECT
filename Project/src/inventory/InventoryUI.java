@@ -153,7 +153,6 @@ public class InventoryUI {
 	    createBtn.setOnAction(e -> {
 	    	if (selectedProd.getValue() == null) {
 	    		warn("Select a product.");
-	    		e.consume();
 	    		return;
 	        }
 	        
