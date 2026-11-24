@@ -1,3 +1,10 @@
+/* User class
+ * 
+ * This class shall serve as the abstract parent of all user types,
+ *  holding the username and password and defining what each role is allowed to do.
+ * @author Edmarc Justine Mekitpekit
+ * */
+
 
 package proj;
 

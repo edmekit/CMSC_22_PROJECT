@@ -1,3 +1,9 @@
+/* InventoryItem class
+ * 
+ * This class shall serve as the class that pairs a Product with its quantity in stock, representing one row of the inventory.
+ * @author Dindo Phillip Mijares
+ * */
+
 package inventory;
 
 import java.io.Serializable;

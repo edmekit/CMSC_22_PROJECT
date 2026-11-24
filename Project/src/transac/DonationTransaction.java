@@ -1,3 +1,11 @@
+/* DonationTransaction class
+ * 
+ * This class shall serve as the transaction created when a donation is recorded,
+ *  either in cash or as an item, along with the name of the donor.
+ * @author Dindo Phillip Mijares
+ * */
+
+
 package transac;
 
 import java.time.LocalDate;

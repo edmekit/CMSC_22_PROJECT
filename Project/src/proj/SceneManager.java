@@ -1,3 +1,10 @@
+/* SceneManager class
+ * 
+ * This class shall serve as the class that handles window switching and gives every screen access to the shared data,
+ *  such as inventory, products, and transactions.
+ * @author Edmarc Justine Mekitpekit
+ * */
+
 package proj;
 
 import javafx.scene.Parent;

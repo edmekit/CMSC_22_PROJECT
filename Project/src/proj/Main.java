@@ -1,3 +1,9 @@
+/*  Main class
+ * 
+ * This class shall serve as the entry point of the program, loading the saved data when the app starts and saving it when the app closes.
+ * @author Edmarc Justine Mekitpekit
+ * */
+
 package proj;
 
 import javafx.application.Application;

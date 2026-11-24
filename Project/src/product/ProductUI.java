@@ -1,3 +1,10 @@
+/* ProductUI class
+ * 
+ * This class shall serve as the class that builds the Product screen,
+ *  showing the product table and the buttons to add, edit, and delete products.
+ * @author Dindo Phillip D. Mijares
+ * */
+
 package product;
 
 import inventory.InventoryItem;

@@ -1,3 +1,10 @@
+/* InventoryUI class
+ * 
+ * This class shall serve as the class that builds the Inventory screen,
+ *  showing the stock table and the buttons to add, restock, and delete items.
+ * @author Dindo Phillip D. Mijares
+ * */
+
 package inventory;
 
 import javafx.event.ActionEvent;
@@ -50,7 +57,7 @@ public class InventoryUI {
         title.setAlignment(Pos.CENTER);
         title.getStyleClass().add("title");
     	
-    	HBox levels = getLevels(); // or something type shit
+    	HBox levels = getLevels(); 
     	items = getItems();
     	
     	Button addItem = new Button("Add an item");

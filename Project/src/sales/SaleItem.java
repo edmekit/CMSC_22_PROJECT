@@ -1,6 +1,7 @@
 /* Sales Item class
  * 
  * This class shall serve as the class that will be instantiated in creating sale transactions.
+ * @author John Kirby Ocampo
  * */
 
 package sales;

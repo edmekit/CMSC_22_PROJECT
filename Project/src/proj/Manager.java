@@ -1,3 +1,9 @@
+/*  Manager class
+ * 
+ * This class shall serve as the user type with full access, allowed to manage both products and inventory.
+ * @author Edmarc Justine Mekitpekit
+ * */
+
 package proj;
 
 public class Manager extends User {

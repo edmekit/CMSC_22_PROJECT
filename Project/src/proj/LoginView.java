@@ -1,3 +1,9 @@
+/* LoginView class
+ * 
+ * This class shall serve as the class that builds the Welcome screen, containing the login form and the sign-up form.
+ * @author Edmarc Justine Mekitpekit
+ * */
+
 package proj;
 
 import javafx.geometry.Insets;
@@ -69,7 +75,7 @@ public class LoginView {
 			HBox content = new HBox(left, right);	
 			content.setAlignment(Pos.CENTER);
 			
-			// change to dashboard when iz made
+			// change to dashboard when it is made
 		    loginBtn.setOnAction(e -> {
 		        if (sm.getSystem().login(username.getText(), password.getText())) {
 		           sm.showDashboard();

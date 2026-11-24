@@ -1,3 +1,10 @@
+/* TransactionUI class
+ * 
+ * This class shall serve as the class that builds the Transactions screen,
+ *  showing the history table and the buttons to record a donation and void a transaction.
+ * @author Dindo Phillip Mijares
+ * */
+
 package transac;
 
 import java.time.LocalDate;
@@ -62,6 +69,7 @@ public class TransactionUI {
 		HBox btns = new HBox(5, donateBtn, voidBtn);
 		
 		root.getChildren().addAll(title, levels, table, btns);
+		
 		
 		return root;
 	}
@@ -248,8 +256,9 @@ public class TransactionUI {
 		confirm.showAndWait().ifPresent(result -> {
 			if (result == ButtonType.YES) {
 				transactions.voidTransaction(selected,sm.getInventory());
-				table.refresh();
+				transactions.setBalance(transactions.getBalance() - selected.getAmount());
 				updateBalance();
+				table.refresh();
 			}
 		});
 		

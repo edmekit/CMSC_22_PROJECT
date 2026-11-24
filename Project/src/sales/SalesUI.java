@@ -1,3 +1,10 @@
+/* SalesUI class
+ * 
+ * This class shall serve as the class that builds the Sales screen,
+ *  where a product and quantity are chosen to complete an order and the total earnings are shown.
+ * @author Edmarc Justine Mekitpekit
+ * */
+
 package sales;
 
 import inventory.Inventory;

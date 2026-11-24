@@ -1,3 +1,10 @@
+/* Transactions class
+ * 
+ * This class shall serve as the ledger that holds every transaction,
+ *  such as recording, voiding, computing the wallet balance, and saving the history.
+ * @author Edmarc Justine Mekitpekit
+ * */
+
 package transac;
 
 import javafx.collections.FXCollections;
@@ -64,6 +71,7 @@ public class Transactions implements Serializable {
 			InventoryItem item = inv.findItem(sale.getItem().getProdName());
 			item.setQuantity(item.getQuantity() + sale.getQuantity());
 		}
+		
 		return true;
 	}
 	
@@ -79,7 +87,10 @@ public class Transactions implements Serializable {
     private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
         ois.defaultReadObject();
         List<Transaction> list = (List<Transaction>) ois.readObject(); 
-        history = FXCollections.observableArrayList(list); 
+        if(history == null) {
+        	history = FXCollections.observableArrayList(list); 
+        }
+        history.setAll(list);
     }
 	
 	public void saveTransactions(Path filepath) {

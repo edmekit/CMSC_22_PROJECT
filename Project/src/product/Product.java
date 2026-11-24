@@ -1,6 +1,7 @@
 /* Product class
  * 
  * This class is for creating Products that will be used throughout the project.
+ * @author John Kirby Ocampo
  * */
 
 package product;

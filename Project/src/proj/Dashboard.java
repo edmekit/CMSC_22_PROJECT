@@ -1,3 +1,10 @@
+/* Dashboard class
+ * 
+ * This class shall serve as the class that builds the main screen after login,
+ *  showing a sidebar whose options depend on the role of the current user.
+ * @author Edmarc Justine Mekitpekit
+ * */
+
 package proj;
 import inventory.Inventory;
 import inventory.InventoryUI;
@@ -41,7 +48,7 @@ public class Dashboard {
     	VBox btns = new VBox(10);
     	sidebar.getStyleClass().add("sidebar");
     	
-    	Label greet = new Label("Hello, " + currentUser.getRoleName() + " "+ currentUser.getUsername() ); // put name maybe
+    	Label greet = new Label("Hello, " + currentUser.getRoleName() + " "+ currentUser.getUsername() );
     	sidebar.getChildren().add(greet);
     	
     	sidebar.setPrefWidth(150);
@@ -108,15 +115,6 @@ public class Dashboard {
     public Parent getView() {
         return root;
     }
-	
-	// Manager-only
-	
-	
-	
-	
-	
-	// Clerk-only
-	
 	
 	
 	

@@ -1,3 +1,10 @@
+/* ProductList class
+ * 
+ * This class shall serve as the class that holds the list of all products offered,
+ *  such as adding, removing, finding, and saving products.
+ * @author Edmarc Justine Mekitpekit
+ * */
+
 package product;
 
 import java.io.IOException;

@@ -1,3 +1,10 @@
+/* Transaction class
+ * 
+ * This class shall serve as the abstract parent of all ledger entries,
+ *  holding the id, date, recorder, and voided status shared by every transaction.
+ * @author Dindo Phillip Mijares
+ * */
+
 package transac;
 
 import java.io.Serializable;

@@ -1,3 +1,10 @@
+/* App class
+ * 
+ * This class shall serve as the class that manages the users of the system,
+ *  such as logging in, signing up, logging out, and saving accounts.
+ * @author Edmarc Justine Mekitpekit
+ * */
+
 package proj;
 
 import java.nio.file.Path;

@@ -1,3 +1,10 @@
+/* Inventory class
+ * 
+ * This class shall serve as the class that keeps track of the stock of every product, such as adding, restocking, removing, and saving items.
+ * @author Edmarc Justine Mekitpekit
+ * */
+
+
 package inventory;
 
 import java.io.IOException;

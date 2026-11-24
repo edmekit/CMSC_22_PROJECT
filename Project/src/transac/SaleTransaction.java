@@ -1,3 +1,9 @@
+/* SaleTransaction class
+ * 
+ * This class shall serve as the transaction created when a sale is completed, holding the item sold, the quantity, and the total price.
+ * @author Dindo Phillip Mijares
+ * */
+
 package transac;
 
 import java.time.LocalDate;

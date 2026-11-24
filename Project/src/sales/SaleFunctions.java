@@ -1,6 +1,8 @@
 /* Sale Functions class
  * 
  * This class shall serve as the class that contains the functions of processing sales such as adding, and printing.
+ * @author John Kirby F. Ocampo
+ * 
  */
 
 package sales;
