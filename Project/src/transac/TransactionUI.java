@@ -3,6 +3,7 @@ package transac;
 import java.time.LocalDate;
 
 import javafx.beans.property.SimpleStringProperty;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -159,14 +160,19 @@ public class TransactionUI {
 		dialog.getDialogPane().getButtonTypes().addAll(record, ButtonType.CANCEL);
 		
 		Button recordBtn = (Button) dialog.getDialogPane().lookupButton(record);
-		recordBtn.setOnAction(e -> {
+		recordBtn.addEventFilter(ActionEvent.ACTION, e -> {
 			if (type.getValue().equals(DonationTransaction.CASH)) {
 				String donorName = donor.getText();
-				if (donorName.isEmpty()) {warn("Enter the donor's name."); return;}
+				if (donorName.isEmpty()) {
+					warn("Enter the donor's name.");
+					e.consume();
+					return;
+				}
 				LocalDate transactionDate = date.getValue();
 
 				if (transactionDate == null) {
 				    warn("Select a transaction date.");
+				    e.consume();
 				    return;
 				}
 				
@@ -175,10 +181,13 @@ public class TransactionUI {
 					amt = Double.valueOf(amount.getText());
 				}
 				catch (NumberFormatException ex) {
-					warn("Amount must be a number."); return;
+					warn("Amount must be a number.");
+					e.consume();
+					return;
 				}
 				if (amt <= 0) {
 					warn("Amount must be a valid positive number");
+					e.consume();
 					return;
 				}
 				transactions.recordCashDonation(donorName, amt, user.getUsername(), transactionDate);

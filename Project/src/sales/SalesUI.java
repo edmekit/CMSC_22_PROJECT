@@ -5,6 +5,8 @@ import inventory.InventoryItem;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -78,7 +80,7 @@ public class SalesUI {
 			try {
 				quan = Integer.valueOf(quantity.getText());
 			} catch (NumberFormatException ex) {
-	        	warn("Quantity must be a whole number.");
+	        	warn("Enter a valid number.");
 	        	return;
 	        }
 			if (quan <= 0) {
@@ -88,6 +90,12 @@ public class SalesUI {
 			String error = saleFunctions.addSale(product, sm.getSystem().getCurrentUser().getUsername(), quan);
 			if (error != null) {warn(error); return;}
 			earningLabel.setText("PHP " + saleFunctions.getEarn());
+			
+			Alert bought = new Alert(AlertType.INFORMATION);
+			bought.setTitle("Successful purchase.");
+			bought.setHeaderText("Successful purchase");
+			bought.setContentText(product.getProdName() + ": " + quan);
+			bought.showAndWait();
 			
 			});
 		

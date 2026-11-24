@@ -1,5 +1,6 @@
 package inventory;
 
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
@@ -26,6 +27,7 @@ public class InventoryUI {
 	private SceneManager sm;
 	private Inventory inventory;
 	private ProductList list;
+	private TableView<InventoryItem> items;
 	private User user;
 	private Label itemCount;
 	private Label restockCount;
@@ -49,7 +51,7 @@ public class InventoryUI {
         title.getStyleClass().add("title");
     	
     	HBox levels = getLevels(); // or something type shit
-    	TableView<InventoryItem> items = getItems();
+    	items = getItems();
     	
     	Button addItem = new Button("Add an item");
     	addItem.setManaged(user.canManageInventory());
@@ -178,7 +180,7 @@ public class InventoryUI {
 	        
 	    Button createBtn = (Button) dialog.getDialogPane().lookupButton(createType); // get create button to apply functions
 	    
-	    createBtn.setOnAction(e -> {
+	    createBtn.addEventFilter(ActionEvent.ACTION, e -> {
 	    	if (selectedProd.getValue() == null) {
 	    		warn("Select a product.");
 	    		e.consume();
@@ -206,6 +208,7 @@ public class InventoryUI {
 	        	return;
 	        } else {
 	        	itemCount.setText("Products: " + String.valueOf(inventory.getNumProduct()));
+	        	items.refresh();
 	        }
 	    });
 
@@ -240,7 +243,7 @@ public class InventoryUI {
 	    dialog.getDialogPane().setContent(content);
 	    Button restockBtn = (Button) dialog.getDialogPane().lookupButton(restockType);
 	    
-	    restockBtn.setOnAction(e -> {
+	    restockBtn.addEventFilter(ActionEvent.ACTION, e -> {
 	    	int quan;
 	    	try {
 	        	quan = Integer.parseInt(quantity.getText().trim());
@@ -256,6 +259,7 @@ public class InventoryUI {
 	        }
 	        item.setQuantity(quan + item.getQuantity());
 	        restockCount.setText("\tNeeds restocking: " + String.valueOf(inventory.getNeedRestock()));
+	        items.refresh();
 	    });
  		dialog.showAndWait();
     }

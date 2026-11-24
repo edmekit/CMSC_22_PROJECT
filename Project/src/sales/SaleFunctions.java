@@ -35,7 +35,6 @@ public class SaleFunctions implements Serializable {
 		transacs.recordSale(toSell, quantity, user);
 		toSell.setQuantity(toSell.getQuantity() - quantity);
 		earnings += toSell.getPrice() * quantity;
-		System.out.print(earnings);
 		return null; // Success
 	}
 	

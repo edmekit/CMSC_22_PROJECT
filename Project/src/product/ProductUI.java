@@ -3,6 +3,7 @@ package product;
 import inventory.InventoryItem;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
@@ -24,6 +25,7 @@ import proj.User;
 public class ProductUI {
 	private SceneManager sm;
 	private ProductList productlist;
+	private TableView<Product> products;
 	private User user;
 	private Label numProducts;
 	
@@ -44,7 +46,7 @@ public class ProductUI {
 		title.getStyleClass().add("title");
 		
 		HBox levels = getLevels();
-		TableView<Product> products = getProds();
+		products = getProds();
 		
 		Button addItem = new Button("Add a product");
     	Button editItem = new Button("Edit selected");
@@ -168,7 +170,7 @@ public class ProductUI {
 	        
 	    Button createBtn = (Button) dialog.getDialogPane().lookupButton(createType); // get create button to apply functions
 	    
-	    createBtn.setOnAction(e -> {
+	    createBtn.addEventFilter(ActionEvent.ACTION, e -> {
 	        String prodId = String.valueOf(productlist.getNumProds() + 1);
 	        String prodName = name.getText();
 	        String prodDescrip = description.getText();
@@ -239,16 +241,9 @@ public class ProductUI {
 	        
 	    Button createBtn = (Button) dialog.getDialogPane().lookupButton(createType); // get create button to apply functions
 	    
-	    createBtn.setOnAction(e -> {
+	    createBtn.addEventFilter(ActionEvent.ACTION, e -> {
 	        String prodDescrip = description.getText();
-	        
-	        if (prodDescrip.isEmpty()) {
-	            warn("Product description cannot be empty.");
-	            e.consume();
-	            return;
-	        } else {
-	        	prod.setDescription(prodDescrip);
-	        }
+	        prod.setDescription(prodDescrip);
 	        
 	        double prodPrice;
 	        try {
@@ -265,6 +260,7 @@ public class ProductUI {
 	            return;
 	        }
 	        prod.setPrice(prodPrice);
+	        products.refresh();
 	    });
 
 	    dialog.showAndWait();
