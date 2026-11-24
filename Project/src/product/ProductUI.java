@@ -67,7 +67,7 @@ public class ProductUI {
 			Product product = products.getSelectionModel().getSelectedItem();
 						
 			if (product == null) {
-				warn("Select a product to delete first.");
+				warn("Select a product to edit.");
 				return;
 			}
 			
@@ -175,10 +175,12 @@ public class ProductUI {
 	        
 	        if (prodName.isEmpty()) {
 	            warn("Product name cannot be empty.");
+	            e.consume();
 	            return;
 	        }
 	        if (productlist.findProd(prodName) != null) {
 	            warn("A product with that name already exists.");
+	            e.consume();
 	            return;
 	        }
 	        
@@ -187,10 +189,12 @@ public class ProductUI {
 	            prodPrice = Double.parseDouble(price.getText().trim());
 	        } catch (NumberFormatException ex) {
 	            warn("Price must be a number.");
+	            e.consume();
 	            return;
 	        }
 	        if (prodPrice < 0) {
 	            warn("Price cannot be negative.");
+	            e.consume();
 	            return;
 	        }
 	        
@@ -205,7 +209,7 @@ public class ProductUI {
 	
 	private void editProduct(Product prod) {
 		 Dialog<Void> dialog = new Dialog<>();	// make dialog window
-	    dialog.setTitle("Add a product");
+	    dialog.setTitle("Edit a product");
 	    
 	    ButtonType createType = new ButtonType("Save changes");   // make button
 		dialog.getDialogPane().getButtonTypes().addAll(		// add buttons to the window

@@ -1,23 +1,116 @@
+/* ===== Login ===== */
 .root {
-    -fx-background-color: #202830;
-    -fx-font-family: "Arial";
-}
+    -bg:          #F6F8F7;
+    -surface:     #FFFFFF;
+    -ink:         #2B3A35;
+    -muted:       #7C8B85;
+    -line:        #E3E9E6;
+    -sage:        #CFE3D6;
+    -sage-hover:  #BFD8C8;
+    -sage-press:  #AFCDBB;
+    -sage-ink:    #2F4A3C;
+    -select:      #E6F0EA;
+    -rose:        #F3D6D6;
+    -rose-hover:  #EBC5C5;
+    -rose-ink:    #7A3B3B;
 
-.button {
-    -fx-background-color: #AD2828;
-    -fx-text-fill: white;
-    -fx-background-radius: 6px;
-    -fx-cursor: hand;
+    -fx-background-color: -bg;
+    -fx-font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    -fx-font-size: 13px;
+    -fx-text-fill: -ink;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
 }
-
-.button:hover {
-    -fx-background-color: #008C93;
-}
-
 .left {
 	-fx-background-color: white;
 }
-
 .right {
-	-fx-background-color: #F5F5F5;
+    -fx-background-color: #E6F0EA;
+}
+.left {
+    -fx-border-color: transparent -line transparent transparent;
+}
+
+.left .text-field,
+.right .text-field,
+.right .combo-box,
+.left .button,
+.right .button {
+    -fx-pref-height: 25;
+}
+
+/* make buttons and the role dropdown span the full form width */
+.left .button,
+.right .button,
+.right .combo-box {
+    -fx-max-width: 9999;
+}
+
+.button {
+    -fx-background-color: -sage;
+    -fx-text-fill: -sage-ink;
+    -fx-font-weight: 600;
+    -fx-background-radius: 8;
+    -fx-padding: 8 16 8 16;
+    -fx-cursor: hand;
+}
+.button:hover   { -fx-background-color: -sage-hover; }
+.button:pressed { -fx-background-color: -sage-press; }
+.button:disabled { -fx-opacity: 0.5; }
+
+.left .label.error,
+.right .label.notice {
+    -fx-font-size: 12px;
+    -fx-wrap-text: true;
+}
+.label.error  { -fx-text-fill: -rose-ink; }
+.label.notice { -fx-text-fill: -sage-ink; }
+
+/* ===== Inputs ===== */
+.text-field,
+.date-picker .text-field {
+    -fx-background-color: -surface;
+    -fx-background-radius: 8;
+    -fx-border-color: -line;
+    -fx-border-radius: 8;
+    -fx-padding: 7 10 7 10;
+    -fx-prompt-text-fill: #A9B5B0;
+}
+.text-field:focused,
+.combo-box:focused,
+.date-picker:focused .text-field {
+    -fx-border-color: #A9CDB8;
+}
+.text-field:disabled,
+.combo-box:disabled {
+    -fx-opacity: 0.55;
+    -fx-background-color: #F0F4F2;
+}
+
+.combo-box-base,
+.date-picker {
+    -fx-background-color: -surface;
+    -fx-background-radius: 8;
+    -fx-border-color: -line;
+    -fx-border-radius: 8;
+}
+.combo-box-base .arrow-button,
+.date-picker .arrow-button {
+    -fx-background-color: transparent;
+}
+.combo-box-base .arrow,
+.date-picker .arrow {
+    -fx-background-color: -muted;
+}
+.combo-box-popup .list-view,
+.date-picker-popup {
+    -fx-background-color: -surface;
+    -fx-border-color: -line;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+}
+.combo-box-popup .list-cell:filled:hover,
+.combo-box-popup .list-cell:filled:selected {
+    -fx-background-color: -select;
+    -fx-text-fill: -ink;
 }

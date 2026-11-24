@@ -13,11 +13,11 @@ import java.nio.file.Paths;
 import inventory.Inventory;
 
 public class Main extends Application {
-	private static final Path INVENTORY_FILE = Paths.get("Project/src/storage/inventory.txt");
-	private static final Path PRODUCT_FILE = Paths.get("Project/src/storage/products.txt");
-	private static final Path TRANSACTIONS_FILE = Paths.get("Project/src/storage/transactions.txt");
-	private static final Path SALES_FILE = Paths.get("Project/src/storage/sales.txt");
-	private static final Path APP_FILE = Paths.get("Project/src/storage/app.txt");
+	private static final Path INVENTORY_FILE = Paths.get("src/storage/inventory.txt");
+	private static final Path PRODUCT_FILE = Paths.get("src/storage/products.txt");
+	private static final Path TRANSACTIONS_FILE = Paths.get("src/storage/transactions.txt");
+	private static final Path SALES_FILE = Paths.get("src/storage/sales.txt");
+	private static final Path APP_FILE = Paths.get("src/storage/app.txt");
 	
 	Inventory inventory;
 	App system;

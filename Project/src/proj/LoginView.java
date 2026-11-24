@@ -33,6 +33,7 @@ public class LoginView {
 			password.setPromptText("Password");
 			Button loginBtn = new Button("Login");
 			Label errorLabel = new Label();
+			errorLabel.getStyleClass().add("error");
 			
 			VBox login = new VBox(15, username, password, loginBtn, errorLabel);
 			VBox left = new VBox(10, welcome, login);
@@ -50,6 +51,7 @@ public class LoginView {
 			types.getItems().addAll("MANAGER", "CLERK");
 			
 			Label notifLabel = new Label();
+			notifLabel.getStyleClass().add("notif");
 			
 			Button signupBtn = new Button("Sign Up");
 			

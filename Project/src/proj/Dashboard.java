@@ -41,7 +41,7 @@ public class Dashboard {
     	VBox btns = new VBox(10);
     	sidebar.getStyleClass().add("sidebar");
     	
-    	Label greet = new Label("Hello, " + currentUser.getUsername() + " (" + currentUser.getRoleName() + ")"); // put name maybe
+    	Label greet = new Label("Hello, " + currentUser.getRoleName() + " "+ currentUser.getUsername() ); // put name maybe
     	sidebar.getChildren().add(greet);
     	
     	sidebar.setPrefWidth(150);

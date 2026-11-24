@@ -152,7 +152,9 @@ public class InventoryUI {
 	    ComboBox<String> selectedProd = new ComboBox<>();		
 	    selectedProd.setMaxWidth(Double.MAX_VALUE);
 	    for (Product product : list.getProducts()) {
-	    	selectedProd.getItems().add(product.getProdName());
+	        if (inventory.findItem(product.getProdName()) == null) {
+	            selectedProd.getItems().add(product.getProdName());
+	        }
 	    }
 	   
 	    TextField quantity = new TextField();	
@@ -179,6 +181,7 @@ public class InventoryUI {
 	    createBtn.setOnAction(e -> {
 	    	if (selectedProd.getValue() == null) {
 	    		warn("Select a product.");
+	    		e.consume();
 	    		return;
 	        }
 	        
@@ -213,7 +216,7 @@ public class InventoryUI {
     	 Dialog<Void> dialog = new Dialog<>();	// make dialog window
  	    dialog.setTitle("Restock item");
  	    
- 	    ButtonType restockType = new ButtonType("Add");   // make button
+ 	    ButtonType restockType = new ButtonType("Restock");   // make button
  		dialog.getDialogPane().getButtonTypes().add(		// add buttons to the window
  		    restockType);
  		
@@ -251,7 +254,7 @@ public class InventoryUI {
 	        	e.consume();
 	        	return;
 	        }
-	        item.setQuantity(quan);
+	        item.setQuantity(quan + item.getQuantity());
 	        restockCount.setText("\tNeeds restocking: " + String.valueOf(inventory.getNeedRestock()));
 	    });
  		dialog.showAndWait();
